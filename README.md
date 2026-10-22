@@ -1,24 +1,20 @@
-# Personal Website 
+# Personal Website
 
-A little corner of the internet that's mine.
+A personal website to showcase my projects, interests, and the random things I'm curious about.
 
-I wanted to build a personal website that isn't just about tech, but also includes some of the other things I'm interested in. Basically, a place to put a little bit of everything that makes me, me.
+[**Check it out!**](https://udsau.github.io/Personal-site-/)
 
-## Built with
+## Highlights
+
+- **About Me:** An introduction to who I am, what drives my curiosity etc.
+- **Interests:** A collection of things I'm into.
+- **Projects:** A display of things I've built, experimented with, or learned from along the way.
+
+## Tech Stack
 
 - HTML
 - CSS
 
-Nothing too complicated, just the basics and a bit of styling for now.
+## Note
 
-## Live site
-
-[Check it out here!](https://udsau.github.io/Personal-site-/)
-
-## What's next?
-
-Still a work in progress! There's more I'd like to experiment with, improve, and add over time.
-
-For now, this is just me building something for myself, learning along the way, and having fun with it.
-
-*stay curious*
+I built this because I wanted a personal website that wasn't just another tech portfolio. I wanted a place where I could showcase the things I make while also sharing a little about the person behind them. I’m looking forward to experimenting with the design and giving it a bit of personality. :)
