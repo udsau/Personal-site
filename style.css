@@ -1,0 +1,342 @@
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap');
+
+:root {
+  --bg: #090d14;
+  --bg-secondary: #101722;
+  --card: #111b28;
+  --red: #e63946;
+  --gold: #f5b942;
+  --cyan: #55dfff;
+  --text: #e8edf5;
+  --muted: #95a3b8;
+  --border: rgba(85, 223, 255, 0.2);
+}
+
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+html {
+  scroll-behavior: smooth;
+}
+
+body {
+  background-color: var(--bg);
+  background-image:
+    linear-gradient(rgba(85, 223, 255, 0.025) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(85, 223, 255, 0.025) 1px, transparent 1px);
+  background-size: 40px 40px;
+  color: var(--text);
+  font-family: "Inter", sans-serif;
+  line-height: 1.8;
+  min-height: 100vh;
+}
+
+/* 2. Selection and scrollbar */
+
+::selection {
+  background: var(--gold);
+  color: var(--bg);
+}
+
+::-webkit-scrollbar {
+  width: 8px;
+}
+
+::-webkit-scrollbar-track {
+  background: var(--bg);
+}
+
+::-webkit-scrollbar-thumb {
+  background: #39485a;
+  border-radius: 4px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: var(--cyan);
+}
+
+/* 3. Main layout */
+
+header,
+main,
+footer {
+  width: min(900px, 90%);
+  margin-inline: auto;
+}
+
+header {
+  padding-block: 28px;
+  border-bottom: 1px solid var(--border);
+}
+
+main {
+  padding-block: 64px;
+}
+
+section {
+  margin-bottom: 72px;
+  scroll-margin-top: 24px;
+}
+
+footer {
+  border-top: 1px solid var(--border);
+  padding-block: 24px;
+  color: var(--muted);
+  font-size: 0.8rem;
+}
+
+/* 4. Navigation */
+
+nav {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 20px;
+}
+
+nav a {
+  color: var(--muted);
+  font-size: 0.85rem;
+  text-decoration: none;
+  transition: color 0.2s ease;
+}
+
+nav a:hover {
+  color: var(--gold);
+}
+
+/* 5. Headings */
+
+h1,
+h2,
+h3 {
+  line-height: 1.3;
+  overflow-wrap: anywhere;
+}
+
+h1 {
+  color: var(--gold);
+  font-size: clamp(2.2rem, 6vw, 4rem);
+  letter-spacing: -2px;
+  margin-bottom: 20px;
+}
+
+h2 {
+  color: var(--cyan);
+  font-size: clamp(1.35rem, 3vw, 1.8rem);
+  margin-bottom: 24px;
+}
+
+h3 {
+  color: var(--gold);
+  font-size: 1.1rem;
+  margin-top: 28px;
+  margin-bottom: 10px;
+}
+
+p {
+  color: var(--muted);
+  margin-bottom: 16px;
+}
+
+strong,
+b {
+  color: var(--text);
+}
+
+em {
+  color: var(--gold);
+}
+
+/*  Links */
+
+a {
+  color: var(--cyan);
+}
+
+a:hover {
+  color: var(--gold);
+}
+
+/* Project sections and content blocks */
+article.unsuccessful {
+  border-left-color: #ff4d5a;
+}
+
+article.unsuccessful h3 {
+  color: #ff4d5a;
+}
+article,
+.project-card {
+  background: linear-gradient(
+    135deg,
+    rgba(17, 27, 40, 0.95),
+    rgba(9, 13, 20, 0.95)
+  );
+  border: 1px solid var(--border);
+  border-left: 3px solid var(--cyan);
+  padding: 22px;
+  margin-block: 20px;
+  transition:
+    border-color 0.2s ease,
+    transform 0.2s ease;
+}
+
+article:hover,
+.project-card:hover {
+  border-left-color: var(--gold);
+  border-top-color: rgba(245, 185, 66, 0.45);
+  transform: translateY(-3px);
+}
+
+article h3,
+.project-card h3 {
+  margin-top: 0;
+}
+
+article p:last-child,
+.project-card p:last-child {
+  margin-bottom: 0;
+}
+
+/* 8. Lists */
+
+ul,
+ol {
+  padding-left: 24px;
+  color: var(--muted);
+}
+
+li {
+  padding-left: 4px;
+  margin-bottom: 8px;
+}
+
+li::marker {
+  color: var(--gold);
+}
+
+/* 9. Optional Stark-style labels */
+
+.eyebrow {
+  color: var(--red);
+  font-size: 0.75rem;
+  font-weight: bold;
+  letter-spacing: 3px;
+  text-transform: uppercase;
+  margin-bottom: 12px;
+}
+
+.status {
+  color: var(--cyan);
+  font-size: 0.75rem;
+  letter-spacing: 1px;
+  text-transform: uppercase;
+}
+
+
+.status::before {
+  content: "● ";
+  color: #58e39a;
+}
+
+/* 10. Buttons */
+
+button,
+.button {
+  display: inline-block;
+  padding: 10px 18px;
+  background: transparent;
+  border: 1px solid var(--gold);
+  color: var(--gold);
+  font: inherit;
+  text-decoration: none;
+  cursor: pointer;
+  transition:
+    background-color 0.2s ease,
+    color 0.2s ease;
+}
+
+button:hover,
+.button:hover {
+  background: var(--gold);
+  color: var(--bg);
+}
+
+/* 11. Images */
+
+img {
+  display: block;
+  max-width: 100%;
+  height: auto;
+}
+
+/* 12. Mobile adjustments */
+
+@media (max-width: 600px) {
+  header,
+  main,
+  footer {
+    width: 92%;
+  }
+
+  main {
+    padding-block: 40px;
+  }
+
+  section {
+    margin-bottom: 48px;
+  }
+
+  nav {
+    gap: 12px;
+  }
+
+  nav a {
+    font-size: 0.78rem;
+  }
+
+  article,
+  .project-card {
+    padding: 16px;
+  }
+}
+
+/* 13. Respect reduced-motion preferences */
+
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    scroll-behavior: auto !important;
+    transition: none !important;
+  }
+}
+
+.status.unsuccessful {
+  color: #ff4d5a;
+}
+
+.status.unsuccessful::before {
+  color: #ff4d5a;
+}
+
+.eyebrow,
+.status {
+  font-family: "Courier New", monospace;
+  font-weight: bold;
+}
+#contact a {
+  text-decoration: none;
+}
+#contact {
+  margin-bottom: 0;
+  padding-bottom: 0;
+}
+
+footer {
+  margin-top: 0;
+}
