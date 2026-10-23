@@ -18,3 +18,5 @@ A personal website to showcase my projects, interests, and the random things I'm
 ## Note
 
 I built this because I wanted a personal website that wasn't just another tech portfolio. I wanted a place where I could showcase the things I make while also sharing a little about the person behind them. I’m looking forward to experimenting with the design and giving it a bit of personality. :)
+
+<sub><em>HTML structure and website content by me. CSS styling developed with AI assistance.</em></sub>
