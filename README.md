@@ -9,6 +9,7 @@ A personal website to showcase my projects, interests, and the random things I'm
 - **About Me:** An introduction to who I am, what drives my curiosity etc.
 - **Interests:** A collection of things I'm into.
 - **Projects:** A display of things I've built, experimented with, or learned from along the way.
+- **Photography:** Featuring photos I've clicked myself.
 
 ## Tech Stack
 
@@ -19,4 +20,3 @@ A personal website to showcase my projects, interests, and the random things I'm
 
 I built this because I wanted a personal website that wasn't just another tech portfolio. I wanted a place where I could showcase the things I make while also sharing a little about the person behind them. I’m looking forward to experimenting with the design and giving it a bit of personality. :)
 
-<sub><em>HTML structure and website content by me. CSS styling developed with AI assistance.</em></sub>

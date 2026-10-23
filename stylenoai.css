@@ -1,0 +1,130 @@
+@import url("https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap");
+html {
+  scroll-behavior: smooth;
+}
+:root {
+  --bg: #F5F0E6;
+  --red: #A65346;
+  --text: #302F2B;
+  --muted: #778293;
+}
+body {
+    background-color: var(--bg);
+    background-image: url("images/papertexture.jpg"); 
+    /* I wanted to add a paper like texture */
+    background-repeat: repeat;
+    background-size: 600px;
+    color: var(--text);
+    font-family: "Inter", sans-serif;
+    line-height: 1.8;
+    min-height: 100vh;
+}
+nav {
+  display: flex;
+  justify-content: left;
+  gap: 20px;
+}
+nav a {
+  align-items: center;
+  font-size: 0.9rem;
+  font-weight: 500;
+  color: var(--text);
+  text-decoration: none;
+}
+
+/* Layout for all project cards */
+.projects-grid {
+    display: grid;
+    grid-template-columns: 1fr;
+    align-items: stretch;
+}
+
+/* The box around each project */
+
+.project-card {
+    border: 2px solid #0a555cf1;
+    padding: 20px;
+    margin: 20px 0;
+
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) auto;
+    column-gap: 12px;
+    align-items: start;
+}
+
+.project-card h3 {
+    grid-column: 1;
+    grid-row: 1;
+    margin: 0;
+}
+
+/* Style the status label */
+.project-card .status {
+    color: #566450;
+    font-weight: 600;
+    border: none;
+    background: none;
+    vertical-align: middle;
+}
+
+/* Status label for unsuccessful projects */
+.project-card .status.unsuccessful {
+    color: var(--red);
+}
+
+/* Make descriptions easier to read */
+.project-card p:not(.status) {
+    grid-column: 1 / -1;
+    line-height: 1.6;
+}
+
+/* Photography collage */
+.photography-grid {
+    columns: 2;
+    column-gap: 20px;
+}
+
+.photo-frame {
+    background: #fff;
+    border: 1px solid #e0e0e0;
+    padding: 8px 8px 14px;
+    margin: 0 0 28px;
+    break-inside: avoid;
+
+    box-shadow: 3px 5px 8px rgba(27, 27, 25, 0.15);
+}
+
+/* Preserve the original proportions */
+.photo-frame img {
+    display: block;
+    width: 100%;
+    height: auto;
+}
+
+.photo-frame figcaption {
+    margin-top: 8px;
+    color: var(--text);
+    font-size: 15px;
+    align-items: left;
+    font-weight: bold;
+}
+
+h2 {
+    text-decoration: underline;
+    text-underline-offset: 8px;
+}
+
+.photo-frame img {
+    display: block;
+    width: 100%;
+    height: auto;
+    border-radius: 2px;
+}
+
+
+/* Links in the Find Me section */
+#contact a {
+    color: var(--muted);
+    text-decoration: none;
+    transition: color 0.2s ease;
+}

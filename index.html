@@ -5,10 +5,10 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <meta
       name="description"
-      content="A little corner of the internet where Udita shares her projects, interests, and curiosity about the world."
+      content="A little corner of the internet where I shares my projects, interests, and curiosity."
     />
     <title>Casual Portfolio</title>
-    <link rel="stylesheet" href="./style.css" />
+    <link rel="stylesheet" href="./stylenoai.css" />
   </head>
 
   <body>
@@ -20,9 +20,8 @@
       <p class="intro">welcome to my corner of the internet!</p>
 
       <nav aria-label="Main navigation">
-        <a href="#about">about</a>
-        <a href="#interests">interests</a>
         <a href="#projects">projects</a>
+        <a href="#photography">photography</a>
         <a href="#contact">find me</a>
       </nav>
     </header>
@@ -37,10 +36,9 @@
           I guess I never really grew out of that phase (perhaps a good thing).
           I'm driven by curiosity and the belief that there's always more to
           learn, so I want to keep exploring new things simply for the fun of
-          it. I don't like limiting myself to a single thing, and right now
-          I'm exploring both hardware and software. I want to bring the two
-          together and build things that go beyond the screen. (btw i love
-          iron man)
+          it. I don't like limiting myself to a single thing, and right now I'm
+          exploring both hardware and software. I want to bring the two together
+          and build things that go beyond the screen. (btw i love iron man)
         </p>
       </section>
 
@@ -64,12 +62,12 @@
       <section id="projects">
         <p class="eyebrow">03 // Build Log</p>
         <h2>Things I've Made</h2>
-
         <p>
           Here's a collection of things I've worked on (or at least tried to)
         </p>
+        <div class="projects-grid">
 
-        <article>
+       <article class="project-card project-success">
           <p class="status">Web App</p>
           <h3>1. Habit Tracker</h3>
 
@@ -81,7 +79,7 @@
           </p>
         </article>
 
-        <article>
+        <article class="project-card project-success">
           <p class="status">Web App</p>
           <h3>2. Study Planner</h3>
 
@@ -93,7 +91,7 @@
           </p>
         </article>
 
-        <article>
+        <article class="project-card project-success">
           <p class="status">Hardware</p>
           <h3>3. Bluetooth Controlled Car</h3>
 
@@ -103,7 +101,7 @@
           </p>
         </article>
 
-        <article class="unsuccessful">
+        <article class="project-card project-unsuccessful">
           <p class="status unsuccessful">Web App</p>
           <h3>4. Itinera</h3>
 
@@ -116,7 +114,7 @@
           </p>
         </article>
 
-        <article>
+       <article class="project-card project-success">
           <p class="status">Portfolio</p>
           <h3>5. Personal Website (This)</h3>
 
@@ -126,21 +124,69 @@
           </p>
         </article>
 
-      <article class="unsuccessful">
-        <p class="status unsuccessful">Web App</p>
-        <h3>6. Medic.in</h3>
-        <p>
-          Built this during a hackathon with my team. I worked on the maps
-          section using openstreetmap (osm), which was my first time working
-          with an api. We got selected for the first round by presenting our
-          prototype, but eventually dropped the project. Still, it was a fun
-          learning experience!
-        </p>
-      </article>
+        <article class="project-card project-unsuccessful">
+          <p class="status unsuccessful">Web App</p>
+          <h3>6. Medic.in</h3>
+          <p>
+            Built this during a hackathon with my team. I worked on the maps
+            section using openstreetmap (osm), which was my first time working
+            with an api. We got selected for the first round by presenting our
+            prototype, but eventually dropped the project. Still, it was a fun
+            learning experience!
+          </p>
+        </article>
+        </div>
+      </section>
+
+      <section id="photography">
+        <p class="eyebrow">04 // Photography</p>
+        <h2>Through my lens</h2>
+
+        <div class="photography-grid">
+          <figure class="photo-frame">
+            <img
+              src="images/photography/birds.jpg"
+              alt="Description of photograph one"
+            />
+            <figcaption>Birds</figcaption>
+          </figure>
+
+          <figure class="photo-frame">
+            <img
+              src="images/photography/busyroad.jpg"
+              alt="Description of photograph two"
+            />
+            <figcaption>Busy Road</figcaption>
+          </figure>
+
+          <figure class="photo-frame">
+            <img
+              src="images/photography/monument.jpg"
+              alt="Description of photograph three"
+            />
+            <figcaption>Monument</figcaption>
+          </figure>
+
+          <figure class="photo-frame">
+            <img
+              src="images/photography/streetlight.jpg"
+              alt="Description of photograph four"
+            />
+            <figcaption>Streetlight</figcaption>
+          </figure>
+
+          <figure class="photo-frame">
+            <img
+              src="images/photography/streetlighthome.jpg"
+              alt="Description of photograph five"
+            />
+            <figcaption>Rainy Day</figcaption>
+          </figure>
+        </div>
       </section>
 
       <section id="contact">
-        <p class="eyebrow">04 // External Connections</p>
+        <p class="eyebrow">05 // External Connections</p>
         <h2>Find me elsewhere</h2>
 
         <p>
@@ -152,7 +198,11 @@
             GitHub
           </a>
           ·
-          <a href="https://www.linkedin.com/in/udsau/" target="_blank" rel="noopener noreferrer">
+          <a
+            href="https://www.linkedin.com/in/udsau/"
+            target="_blank"
+            rel="noopener noreferrer"
+          >
             LinkedIn
           </a>
         </p>
