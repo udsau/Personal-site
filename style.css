@@ -465,3 +465,10 @@ footer {
     }
 }
 
+.motto {
+    color: #8EBBFF;
+    font-weight: 700;
+    text-shadow: 0 0 8px rgba(142, 187, 255, 0.4);
+}
+
+
