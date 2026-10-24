@@ -30,7 +30,7 @@ select {
 body {
     color: var(--text-main);
     background-color: transparent;
-    font-size: 16px;
+    font-size: 20px;
     line-height: 1.6;
 }
 
