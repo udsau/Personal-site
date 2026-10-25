@@ -30,7 +30,7 @@ select {
 body {
     color: var(--text-main);
     background-color: transparent;
-    font-size: 20px;
+    font-size: 18px;
     line-height: 1.6;
 }
 
@@ -209,19 +209,21 @@ nav a:focus-visible {
 
 /* Project status stars */
 .project-success .status-dot::before {
-    content: "✦";
+    content: "★";
     color: #A7F3D0;
     text-shadow:
         0 0 4px rgba(167, 243, 208, 0.45),
         0 0 9px rgba(167, 243, 208, 0.2);
+        font-size: 1.2rem;
 }
 
 .project-unsuccessful .status-dot::before {
-    content: "✦";
+    content: "★";
     color: #F4A6A6;
     text-shadow:
         0 0 4px rgba(244, 166, 166, 0.4),
         0 0 9px rgba(244, 166, 166, 0.18);
+    font-size: 1.2rem;
 }
 
 /* Photography section */
