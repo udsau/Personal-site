@@ -2,7 +2,7 @@
 
 A personal website to showcase my projects, interests, and the random things I'm curious about.
 
-[**Check it out!**](https://udsau.github.io/Personal-site/)
+[**Live Site**](https://udsau.github.io/Personal-site/)
 
 ## Highlights
 
