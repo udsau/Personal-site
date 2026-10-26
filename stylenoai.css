@@ -116,7 +116,7 @@ nav a:visited {
     color: #8EBBFF;
     background: rgba(20, 20, 29, 0.65);
     border: 2px solid rgba(142, 187, 255, 0.25);
-
+    border-radius: 8px;
     text-decoration: none;
     text-shadow: 0 0 8px rgba(142, 187, 255, 0.2);
 
@@ -430,6 +430,23 @@ nav {
     padding: 6px 10px;  /* Reduced inner padding */
     margin: 2px;       
   }
+  .project-success .status-dot::before {
+    content: "★";
+    color: #A7F3D0;
+    text-shadow:
+        0 0 4px rgba(167, 243, 208, 0.45),
+        0 0 9px rgba(167, 243, 208, 0.2);
+        font-size: 0.90rem;
+}
+
+.project-unsuccessful .status-dot::before {
+    content: "★";
+    color: #F4A6A6;
+    text-shadow:
+        0 0 4px rgba(244, 166, 166, 0.4),
+        0 0 9px rgba(244, 166, 166, 0.18);
+    font-size: 0.90rem;
+}
 }
 .scroll-text {
   margin-top: 40px; /* Change this number to bring it closer or further from the buttons */

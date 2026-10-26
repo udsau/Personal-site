@@ -9,7 +9,7 @@
     />
 
     <title>My Space</title>
-    <link rel="stylesheet" href="./stylenoai.css?v=4" />
+    <link rel="stylesheet" href="./stylenoai.css?v=5" />
   </head>
 
   <body>
@@ -314,5 +314,18 @@
       <p>Thank you for visiting!</p>
     </footer>
     <script src="stars.js" defer></script>
+    <script>
+  // Runs every 5000 milliseconds (5 seconds) for testing
+  setInterval(function() {
+    const el = document.querySelector('.typewriter');
+    
+    // Creates an exact copy of your h1 element
+    const newEl = el.cloneNode(true);
+    
+    // Replaces the old h1 with the new one, forcing the animation to restart
+    el.parentNode.replaceChild(newEl, el);
+    
+  }, 10000); // Change this to 120000 once you verify it works!
+</script>
   </body>
 </html>
