@@ -339,7 +339,7 @@ footer {
 
 @media (max-width: 420px) {
     .photography-grid {
-        columns: 1;
+        columns: 2;
     }
 }
 
@@ -366,4 +366,51 @@ footer {
     text-shadow: 0 0 8px rgba(142, 187, 255, 0.4);
 }
 
+@media (max-width: 768px) {
+  h1 { 
+    font-size: 2rem; 
+  }
+  
+  h2 {
+    font-size: 1.5rem;
+  }
+  
+  p {
+    font-size: 1rem;
+  }
+  /* reducing nav bar + text size */
+  nav {
+    gap: 8px; /* Tighter spacing for narrow screens */
+  }
+
+  nav a {
+    font-size: 0.9rem;  /*Decreases the size of button text */
+    padding: 6px 12px;  /* Reduces the bulk of the button */
+    margin: 4px;  
+  }
+}
+/* adding typewriter animation to h1 (AI assisted)*/
+  .typewriter {
+  overflow: hidden;
+  white-space: nowrap;
+  
+  /* Defaults to transparent so it disappears when the animation is done */
+  border-right: 3px solid transparent; 
+  
+  width: 11.5ch; 
+  
+  animation: 
+    typing 2s steps(17, end) forwards,
+    blink-caret 0.5s step-end 20; 
+}
+
+@keyframes typing {
+  from { width: 0; }
+  to { width: 11.5ch; } /* This MUST match the width in the .typewriter class */
+}
+
+@keyframes blink-caret {
+  from, to { border-right-color: transparent; }
+  50% { border-right-color: #8ab4f8; } 
+}
 
