@@ -1,14 +1,14 @@
-# Personal Website
+# Personal Website 🌌
 
-A personal website to showcase my projects, interests, and the random things I'm curious about.
+A personal website to showcase my projects, interests, and the random things I'm curious about. I wanted to build something that wasn't just another tech portfolio, but a place to showcase the things I make while sharing a little about the person behind them. :)
 
-[**Live Site**](https://udsau.github.io/Personal-site/)
+🔗 **[Visit My Space](https://uditaspace.com)**
 
 ## Highlights
 
 - **About Me:** A little introduction to who I am and what drives my curiosity.
 - **Interests:** A collection of things I'm into, from coding and robotics to art and the cosmos.
-- **Projects:** Things I've built, experimented with, or learned from along the way.
+- **Projects:** Things I've built, experimented with, or learned along the way.
 - **Photography:** Photos I've taken myself.
 
 ## Tech Stack
@@ -17,8 +17,14 @@ A personal website to showcase my projects, interests, and the random things I'm
 - CSS
 - JavaScript
 
-## Note
+## Note 
 
-I built this because I wanted a personal website that wasn't just another tech portfolio. I wanted a place where I could showcase the things I make while also sharing a little about the person behind them. The website follows a space inspired theme. :)
+### Design & Features
 
-<sub><em>AI assistance was used to explore the bg stars, hover animations, #hero layout, typewriter animation logic, and responsive mobile navigation fixes.</em></sub>
+The original website had a paper inspired design, but I eventually redesigned it around my fascination with space. The new version features an aurora background, an animated starfield, shooting stars, and subtle hover effects to bring the space theme to life. I also worked on responsive navigation using CSS media queries to make the website easier to navigate on mobile devices.
+
+### What I Learned
+
+While working on this website, I explored CSS animations, canvas based star animations, responsive layouts etc. Redesigning the site also gave me an opportunity to experiment with visual effects while keeping the content usable across different screen sizes. 
+
+<sub><em>AI assistance was used to explore the background star effects, hover animations, hero section layout, typewriter animation logic, and responsive mobile navigation fixes. I implemented the resulting code into the website.</em></sub>
