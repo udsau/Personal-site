@@ -21,4 +21,4 @@ A personal website to showcase my projects, interests, and the random things I'm
 
 I built this because I wanted a personal website that wasn't just another tech portfolio. I wanted a place where I could showcase the things I make while also sharing a little about the person behind them. The website follows a space inspired theme. :)
 
-<sub><em>AI assistance was used to explore the starfield and hover animations, but the code was implemented by me.</em></sub>
+<sub><em>AI assistance was used to explore the #hero layout, typewriter animation logic, and responsive mobile navigation fixes.</em></sub>
