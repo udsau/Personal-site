@@ -434,7 +434,8 @@ nav {
 .scroll-text {
   margin-top: 40px; /* Change this number to bring it closer or further from the buttons */
   font-size: 0.85rem;
-  color: var(--muted);
+  color: #8EBBFF;
+  text-shadow: 0 0 10px rgba(142, 187, 255, 0.28);
   letter-spacing: 0.5px;
   animation: float-bounce 2s infinite ease-in-out;
 }
