@@ -24,7 +24,6 @@
         <a href="#contact">contact</a>
       </nav>
       <p class="scroll-text">(scroll to know more)</p>
-      
     </header>
 
     <main class="content">
@@ -49,9 +48,10 @@
           If we had to choose a motto in life, mine would probably be
           <span class="motto"><em>"do it all"</em></span> I'm interested in a
           little bit of everything, from coding and robotics to photography,
-          sketching, chess, and working out. Then there's the cosmos (BLACKHOLES!!), 
-          psychology and poetry (I wrote a few). Too much
-          interesting stuff out there to explore!
+          sketching, chess, and working out. Mainly, I love building stuff. 
+          Ever since childhood, I've been a huge fan of building blocks (love legos but too expensive)
+          Then there's cosmos (BLACKHOLES!!), psychology and poetry (i wrote a few). 
+          Too many interesting things out there!
         </p>
       </section>
 
@@ -159,7 +159,7 @@
 
             <p>
               A little corner of the internet that's mine. An excuse to build
-              something for myself and have fun with it.
+              something for myself and have fun with it. :p
             </p>
             <a
               href="https://github.com/udsau/Personal-site"
@@ -315,17 +315,33 @@
     </footer>
     <script src="stars.js" defer></script>
     <script>
-  // Runs every 5000 milliseconds (5 seconds) for testing
-  setInterval(function() {
-    const el = document.querySelector('.typewriter');
-    
-    // Creates an exact copy of your h1 element
-    const newEl = el.cloneNode(true);
-    
-    // Replaces the old h1 with the new one, forcing the animation to restart
-    el.parentNode.replaceChild(newEl, el);
-    
-  }, 10000); // Change this to 120000 once you verify it works!
-</script>
+      // Repetative animation for the typewriter effect
+      setInterval(function () {
+        const el = document.querySelector(".typewriter");
+
+        // Creates an exact copy of your h1 element
+        const newEl = el.cloneNode(true);
+
+        // Replaces the old h1 with the new one, forcing the animation to restart
+        el.parentNode.replaceChild(newEl, el);
+      }, 100000);
+    </script>
+    <script>
+      // Fades the aurora out dynamically as you scroll down
+      window.addEventListener("scroll", function () {
+        const heroImage = document.querySelector("#hero::before");
+        const heroSection = document.getElementById("hero");
+
+        // Calculates how far you've scrolled relative to the screen height
+        let scrollPosition = window.scrollY;
+        let fadeCalculation = 1 - scrollPosition / window.innerHeight;
+
+        // Prevents it from going negative
+        if (fadeCalculation < 0) fadeCalculation = 0;
+
+        // Applies the new opacity directly to the hero section background
+        heroSection.style.setProperty("--scroll-opacity", fadeCalculation);
+      });
+    </script>
   </body>
 </html>
