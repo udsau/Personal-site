@@ -13,7 +13,6 @@ if (canvas && ctx) {
   const reducedMotion = window.matchMedia("(prefers-reduced-motion: reduce)");
 
   // --- 1. THE SEED: Predictable Randomizer ---
-  // This ensures stars and default constellations spawn in the EXACT same spots on every reload.
   let seed = 1;
   function predictableRandom() {
     let x = Math.sin(seed++) * 10000;
@@ -22,8 +21,8 @@ if (canvas && ctx) {
 
   // --- 2. CONSTELLATION EDITOR STATE ---
   let isEditMode = false;
-  let defaultLines = []; // Layer 1: The predefined shapes (always load)
-  let userLines = JSON.parse(localStorage.getItem('userConstellationLines')) || []; // Layer 2: User additions
+  let defaultLines = []; 
+  let userLines = JSON.parse(localStorage.getItem('userConstellationLines')) || []; 
   
   let selectedStar = null; 
   let mousePos = { x: null, y: null };
@@ -42,14 +41,22 @@ if (canvas && ctx) {
 
   if (clearCanvasBtn) {
     clearCanvasBtn.addEventListener("click", () => {
-      userLines = []; // ONLY clears the user's custom lines
+      // Clear BOTH the user's lines and the default lines
+      userLines = []; 
+      defaultLines = []; 
+      
+      // Clear saved lines from memory
       localStorage.removeItem('userConstellationLines');
+      
+      // Save a flag so the browser remembers you cleared the defaults
+      localStorage.setItem('clearedDefaults', 'true'); 
+      
       selectedStar = null;
     });
   }
 
   function createStars() {
-    seed = 999; // Reset seed before creating stars so they are identically placed
+    seed = 999; 
     const count = Math.min(220, Math.floor((width * height) / 6500));
 
     stars = Array.from({ length: count }, (_, index) => ({
@@ -65,8 +72,20 @@ if (canvas && ctx) {
 
   function initDefaultPattern() {
     defaultLines = [];
-    seed = 555; // Reset seed so the algorithm picks the exact same clusters every time
     
+    const hasCleared = localStorage.getItem('clearedDefaults') === 'true';
+    
+    // If they hit "Clear" AND actually drew custom lines, keep defaults hidden
+    if (hasCleared && userLines.length > 0) {
+        return; 
+    }
+    
+    // If they hit "Clear" but drew NOTHING, forget the clear and bring defaults back!
+    if (hasCleared && userLines.length === 0) {
+        localStorage.removeItem('clearedDefaults');
+    }
+
+    seed = 555; 
     const numClusters = Math.max(5, Math.floor((width * height) / 200000)); 
     
     for (let i = 0; i < numClusters; i++) {
@@ -84,7 +103,6 @@ if (canvas && ctx) {
         for (let j = 0; j < nearby.length; j++) {
             defaultLines.push({ s1: startStar.id, s2: nearby[j].id });
             
-            // Random chance to close the shape (triangles/diamonds)
             if (j > 0 && predictableRandom() > 0.6) {
                 defaultLines.push({ s1: nearby[j-1].id, s2: nearby[j].id });
             }
@@ -165,7 +183,6 @@ if (canvas && ctx) {
     ctx.shadowColor = "#8EBBFF";
     ctx.strokeStyle = "rgba(142, 187, 255, 0.7)";
 
-    // Merge both arrays so we draw the defaults AND the user's additions
     const allLines = [...defaultLines, ...userLines];
 
     for (const line of allLines) {
@@ -202,7 +219,6 @@ if (canvas && ctx) {
     }
     ctx.restore();
 
-    // Shooting star render code
     if (shootingStar) {
       const s = shootingStar;
       const progress = Math.min(s.progress / s.duration, 1);
@@ -314,9 +330,9 @@ if (canvas && ctx) {
     if (clickedStar) {
       if (selectedStar) {
         if (selectedStar !== clickedStar) {
-          // Add specifically to the user array, leave the defaults alone
           userLines.push({ s1: selectedStar.id, s2: clickedStar.id });
           localStorage.setItem('userConstellationLines', JSON.stringify(userLines));
+          
           selectedStar = clickedStar; 
         } else {
           selectedStar = null; 
