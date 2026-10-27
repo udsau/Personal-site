@@ -792,11 +792,27 @@ section, footer {
     z-index: 50;
 }
 
-@media (max-width: 600px) {
+@media (max-width: 750px) {
     .constellation-controls {
         top: 20px;
         right: 20px;
         flex-direction: column; /* Stacks them nicely on phones */
         gap: 8px;
+    }
+}
+@media (max-width: 750px) {
+    /* Adjusts the container position and gap */
+    .constellation-controls {
+        top: 15px;
+        right: 15px;
+        flex-direction: column; 
+        gap: 6px;
+    }
+
+    /* Shrinks the actual buttons */
+    .terminal-btn {
+        padding: 5px 10px;
+        font-size: 0.75rem; /* Makes the text much smaller */
+        border-radius: 4px; /* Slightly sharper corners for tiny buttons */
     }
 }

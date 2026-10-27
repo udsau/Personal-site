@@ -162,6 +162,7 @@ if (canvas && ctx) {
       const glowRadius = star.radius * 5;
       const glow = ctx.createRadialGradient(star.x, star.y, 0, star.x, star.y, glowRadius);
 
+      // Syntax fixed here
       glow.addColorStop(0, `rgba(135, 180, 255, ${opacity * 0.55})`);
       glow.addColorStop(1, "rgba(100, 150, 255, 0)");
 
@@ -227,6 +228,7 @@ if (canvas && ctx) {
       const tailY = s.y - Math.sin(s.angle) * s.length;
 
       const trailGlow = ctx.createLinearGradient(tailX, tailY, s.x, s.y);
+      // Syntax fixed here
       trailGlow.addColorStop(0, "rgba(100, 150, 255, 0)");
       trailGlow.addColorStop(0.65, `rgba(135, 180, 255, ${opacity * 0.12})`);
       trailGlow.addColorStop(1, `rgba(170, 205, 255, ${opacity * 0.65})`);
@@ -258,6 +260,7 @@ if (canvas && ctx) {
 
       const glowRadius = 18;
       const glow = ctx.createRadialGradient(s.x, s.y, 0, s.x, s.y, glowRadius);
+      // Syntax fixed here
       glow.addColorStop(0, `rgba(255, 255, 255, ${opacity * 0.95})`);
       glow.addColorStop(0.2, `rgba(180, 210, 255, ${opacity * 0.6})`);
       glow.addColorStop(1, "rgba(100, 150, 255, 0)");
@@ -350,4 +353,77 @@ if (canvas && ctx) {
 
   resizeCanvas();
   startAnimation();
+}
+
+// ==========================================
+// DISCORD WEBHOOK CONTACT FORM (Restored)
+// ==========================================
+const webhookURL = "https://discord.com/api/webhooks/1564637470719615016/igfwRvFu_rBD6rjIHtYmeFwfACtsWP09N6tyLS3L5-wJoR5C-1oQmQyN8pdzfjvjldDX";
+
+const contactForm = document.getElementById("transmission-form");
+const submitBtn = document.getElementById("submit-btn");
+
+let lastSubmissionTime = 0; 
+const cooldownDuration = 20000; 
+
+if (contactForm) {
+  contactForm.addEventListener("submit", function (e) {
+    e.preventDefault();
+
+    const botField = document.getElementById('bot-field')?.value;
+    if (botField && botField !== "") return; 
+
+    const currentTime = Date.now();
+    const timeElapsed = currentTime - lastSubmissionTime;
+    
+    if (timeElapsed < cooldownDuration) {
+      const secondsLeft = Math.ceil((cooldownDuration - timeElapsed) / 1000);
+      submitBtn.innerText = `Wait ${secondsLeft}s`;
+      setTimeout(() => submitBtn.innerText = "Send", 2000);
+      return;
+    }
+
+    const nameInput = document.getElementById("sender-name").value.trim();
+    const messageInput = document.getElementById("sender-message").value.trim();
+    if (messageInput === "") return;
+
+    const finalName = nameInput === "" ? "Anonymous Visitor" : nameInput;
+
+    submitBtn.innerText = "Transmitting...";
+    submitBtn.disabled = true;
+
+    const payload = {
+      username: "Portfolio Website",
+      avatar_url: "https://i.imgur.com/4M34hi2.png",
+      embeds: [{
+          title: `New Message from: ${finalName}`,
+          description: messageInput,
+          color: 9354239, 
+      }],
+    };
+
+    fetch(webhookURL, {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify(payload),
+    })
+      .then((response) => {
+        if (response.ok) {
+          lastSubmissionTime = Date.now(); 
+          submitBtn.innerText = "Sent!";
+          contactForm.reset();
+          setTimeout(() => {
+            submitBtn.innerText = "Send";
+            submitBtn.disabled = false;
+          }, 3000);
+        } else {
+          submitBtn.innerText = "Error!";
+          submitBtn.disabled = false;
+        }
+      })
+      .catch(() => {
+        submitBtn.innerText = "Error!";
+        submitBtn.disabled = false;
+      });
+  });
 }
