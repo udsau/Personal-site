@@ -391,7 +391,7 @@ footer {
 }
 
 body, button, a, .photo-frame img, .close-modal {
-  cursor: url('star.png') 0 0, auto !important; 
+  cursor: url('bg.png') 0 0, auto !important; 
 }
 
 /* The trailing circle */
