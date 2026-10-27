@@ -22,7 +22,7 @@
       <nav aria-label="Main navigation">
         <a href="#projects">projects</a>
         <a href="#photography">photography</a>
-        <a href="#contact">contact</a>
+        <a href="#contact">contact me</a>
       </nav>
       <p class="scroll-text">(scroll to know more)</p>
     </header>
@@ -281,34 +281,29 @@
       </section>
 
       <section id="contact">
-        <h2>Find me elsewhere</h2>
+  <!-- Top Section: Links -->
+  <h2>Contact me elsewhere</h2>
+  <div class="links-inline">
+    <a href="https://github.com/udsau" target="_blank" rel="noopener noreferrer">GitHub</a> ·
+    <a href="https://www.linkedin.com/in/udsau/" target="_blank" rel="noopener noreferrer">LinkedIn</a> ·
+    <a href="https://www.instagram.com/udsau_/" target="_blank" rel="noopener noreferrer">Instagram</a>
+  </div>
 
-        <p>
-          <a
-            href="https://github.com/udsau"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            GitHub
-          </a>
-          ·
-          <a
-            href="https://www.linkedin.com/in/udsau/"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            LinkedIn
-          </a>
-          ·
-          <a
-            href="https://www.instagram.com/udsau_/"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            Instagram
-          </a>
-        </p>
-      </section>
+  <!-- Bottom Section: The unified dark chatbox -->
+  <div class="message-box-dark">
+    <form id="transmission-form" class="contact-form-dark">
+      <!-- The main typing area -->
+      <textarea id="sender-message" rows="3" required placeholder="Send me a Transmission!"></textarea>
+      <!-- SECRET HONEYPOT SPAM TRAP (Keep this hidden with CSS) -->
+  <input type="text" id="bot-field" style="display: none;" autocomplete="off">
+      <!-- The bottom row with Name and the small Send button -->
+      <div class="form-bottom-row">
+        <input type="text" id="sender-name" placeholder="Your Name">
+        <button type="submit" id="submit-btn">Send</button>
+      </div>
+    </form>
+  </div>
+</section>
     </main>
 
     <footer>
@@ -335,7 +330,7 @@
 
         // Replaces the old h1 with the new one, forcing the animation to restart
         el.parentNode.replaceChild(newEl, el);
-      }, 100000);
+      }, 20000);
     </script>
     <script>
       // Fades the aurora out dynamically as you scroll down

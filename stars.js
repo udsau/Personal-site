@@ -28,9 +28,9 @@ if (canvas && ctx) {
       phase: Math.random() * Math.PI * 2,
       twinkleSpeed: Math.random() * 2 + 0.8,
     }));
-    
+
     // Clear user lines if the screen is resized and stars reset
-    userLines = []; 
+    userLines = [];
     selectedStar = null;
   }
 
@@ -75,7 +75,7 @@ if (canvas && ctx) {
 
   function drawStars(deltaTime) {
     ctx.clearRect(0, 0, width, height);
-    
+
     for (const star of stars) {
       if (!reducedMotion.matches) {
         star.y += (star.speed * deltaTime) / 1000;
@@ -92,7 +92,14 @@ if (canvas && ctx) {
       const opacity = 0.45 + (Math.sin(star.phase) + 1) * 0.275;
 
       const glowRadius = star.radius * 5;
-      const glow = ctx.createRadialGradient(star.x, star.y, 0, star.x, star.y, glowRadius);
+      const glow = ctx.createRadialGradient(
+        star.x,
+        star.y,
+        0,
+        star.x,
+        star.y,
+        glowRadius,
+      );
 
       glow.addColorStop(0, `rgba(135, 180, 255, ${opacity * 0.55})`);
       glow.addColorStop(1, "rgba(100, 150, 255, 0)");
@@ -115,7 +122,7 @@ if (canvas && ctx) {
     ctx.shadowColor = "#8EBBFF";
 
     // 1. Draw all saved connections
-    ctx.strokeStyle = "rgba(142, 187, 255, 0.7)"; 
+    ctx.strokeStyle = "rgba(142, 187, 255, 0.7)";
     for (const line of userLines) {
       ctx.beginPath();
       ctx.moveTo(line.start.x, line.start.y);
@@ -131,10 +138,16 @@ if (canvas && ctx) {
       ctx.moveTo(selectedStar.x, selectedStar.y);
       ctx.lineTo(mousePos.x, mousePos.y);
       ctx.stroke();
-      
+
       // Bright dot on the selected star
       ctx.beginPath();
-      ctx.arc(selectedStar.x, selectedStar.y, selectedStar.radius * 3, 0, Math.PI * 2);
+      ctx.arc(
+        selectedStar.x,
+        selectedStar.y,
+        selectedStar.radius * 3,
+        0,
+        Math.PI * 2,
+      );
       ctx.fillStyle = "rgba(255, 255, 255, 0.9)";
       ctx.fill();
     }
@@ -275,7 +288,7 @@ if (canvas && ctx) {
 
       if (distance < clickTolerance) {
         clickedStar = star;
-        break; 
+        break;
       }
     }
 
@@ -285,7 +298,7 @@ if (canvas && ctx) {
           // Connect the two stars!
           userLines.push({ start: selectedStar, end: clickedStar });
           // Make the newly clicked star the active one so they can keep drawing a chain
-          selectedStar = clickedStar; 
+          selectedStar = clickedStar;
         } else {
           // They clicked the same star twice, cancel the selection
           selectedStar = null;
@@ -302,4 +315,88 @@ if (canvas && ctx) {
 
   resizeCanvas();
   startAnimation();
+}
+// Paste your Discord link right here inside the quotes:
+const webhookURL = "https://discord.com/api/webhooks/1564637470719615016/igfwRvFu_rBD6rjIHtYmeFwfACtsWP09N6tyLS3L5-wJoR5C-1oQmQyN8pdzfjvjldDX";
+
+const contactForm = document.getElementById("transmission-form");
+const submitBtn = document.getElementById("submit-btn");
+
+let lastSubmissionTime = 0; // Tracks the last time a message was sent
+const cooldownDuration = 20000; // 20 seconds cooldown in milliseconds
+
+if (contactForm) {
+  contactForm.addEventListener("submit", function (e) {
+    e.preventDefault();
+
+    // 1. SPAM TRAP: Check if the hidden bot field was filled out
+    const botField = document.getElementById('bot-field').value;
+    if (botField !== "") {
+      console.warn("Spam bot detected.");
+      return; // Silently block the bot
+    }
+
+    // 2. COOLDOWN CHECK: Prevent rapid-fire clicking
+    const currentTime = Date.now();
+    const timeElapsed = currentTime - lastSubmissionTime;
+    
+    if (timeElapsed < cooldownDuration) {
+      const secondsLeft = Math.ceil((cooldownDuration - timeElapsed) / 1000);
+      submitBtn.innerText = `Wait ${secondsLeft}s`;
+      setTimeout(() => {
+        submitBtn.innerText = "Send";
+      }, 2000);
+      return;
+    }
+
+    const nameInput = document.getElementById("sender-name").value.trim();
+    const messageInput = document.getElementById("sender-message").value.trim();
+
+    // 3. VALIDATION: Prevent empty messages
+    if (messageInput === "") return;
+
+    const finalName = nameInput === "" ? "Anonymous Visitor" : nameInput;
+
+    submitBtn.innerText = "Transmitting...";
+    submitBtn.disabled = true;
+
+    // Packages the message for Discord
+    const payload = {
+      username: "Portfolio Website",
+      avatar_url: "https://i.imgur.com/4M34hi2.png",
+      embeds: [
+        {
+          title: `New Message from: ${finalName}`,
+          description: messageInput,
+          color: 9354239, // Your theme's blue color
+        },
+      ],
+    };
+
+    // Sends the message
+    fetch(webhookURL, {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify(payload),
+    })
+      .then((response) => {
+        if (response.ok) {
+          lastSubmissionTime = Date.now(); // Reset cooldown timer
+          submitBtn.innerText = "Sent!";
+          contactForm.reset();
+          
+          setTimeout(() => {
+            submitBtn.innerText = "Send";
+            submitBtn.disabled = false;
+          }, 3000);
+        } else {
+          submitBtn.innerText = "Error!";
+          submitBtn.disabled = false;
+        }
+      })
+      .catch(() => {
+        submitBtn.innerText = "Error!";
+        submitBtn.disabled = false;
+      });
+  });
 }
