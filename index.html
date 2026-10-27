@@ -9,10 +9,11 @@
     />
 
     <title>My Space</title>
-    <link rel="stylesheet" href="./stylenoai.css?v=5" />
+    <link rel="stylesheet" href="./stylenoai.css?v=15" />
   </head>
 
   <body>
+    <div class="cursor-circle"></div>
     <canvas id="starfield" aria-hidden="true"></canvas>
 
     <!-- Keep all your existing website content below -->
@@ -48,10 +49,10 @@
           If we had to choose a motto in life, mine would probably be
           <span class="motto"><em>"do it all"</em></span> I'm interested in a
           little bit of everything, from coding and robotics to photography,
-          sketching, chess, and working out. Mainly, I love building stuff. 
-          Ever since childhood, I've been a huge fan of building blocks (love legos but too expensive)
-          Then there's cosmos (BLACKHOLES!!), psychology and poetry (i wrote a few). 
-          Too many interesting things out there!
+          sketching, chess, and working out. Mainly, I love building stuff. Ever
+          since childhood, I've been a huge fan of building blocks (love legos
+          but too expensive) Then there's cosmos (BLACKHOLES!!), psychology and
+          poetry (i wrote a few). Too many interesting things out there!
         </p>
       </section>
 
@@ -235,7 +236,7 @@
               src="images/photography/catnew.jpeg"
               alt="Description of photograph five"
             />
-            <figcaption>Orange car</figcaption>
+            <figcaption>An orange car</figcaption>
           </figure>
 
           <figure class="photo-frame">
@@ -313,6 +314,16 @@
     <footer>
       <p>Thank you for visiting!</p>
     </footer>
+    <!-- Image Lightbox Modal -->
+    <div id="image-modal" class="modal">
+      <span class="close-modal">&times;</span>
+
+      <!-- This new div acts as the "frame thingy" -->
+      <div class="modal-frame">
+        <img id="modal-img" />
+        <figcaption id="modal-caption"></figcaption>
+      </div>
+    </div>
     <script src="stars.js" defer></script>
     <script>
       // Repetative animation for the typewriter effect
@@ -342,6 +353,77 @@
         // Applies the new opacity directly to the hero section background
         heroSection.style.setProperty("--scroll-opacity", fadeCalculation);
       });
+      // Lightbox Modal Logic
+      const modal = document.getElementById("image-modal");
+      const modalImg = document.getElementById("modal-img");
+      const modalCaption = document.getElementById("modal-caption");
+      const images = document.querySelectorAll(".photo-frame img");
+      const closeBtn = document.querySelector(".close-modal");
+
+      // Loop through all images and add a click event
+      images.forEach((img) => {
+        img.onclick = function () {
+          modal.classList.add("active");
+          modalImg.src = this.src;
+          modalCaption.innerHTML = this.nextElementSibling.innerHTML;
+        };
+      });
+
+      // Close the modal when clicking the X
+      closeBtn.onclick = function () {
+        modal.classList.remove("active");
+      };
+
+      // Close the modal ONLY if they click the blurred background (not the frame)
+      modal.onclick = function (e) {
+        if (e.target === modal) {
+          modal.classList.remove("active");
+        }
+      };
+
+      // Close the modal if they click anywhere on the background
+      modal.onclick = function (e) {
+        if (e.target !== modalImg) {
+          modal.classList.remove("active");
+        }
+      };
     </script>
+    <script>
+  const cursorDot = document.querySelector('.cursor-dot');
+  const cursorCircle = document.querySelector('.cursor-circle');
+  
+  let mouseX = 0, mouseY = 0;
+  let circleX = 0, circleY = 0;
+
+  // Tracks the physical mouse
+  window.addEventListener('mousemove', (e) => {
+    mouseX = e.clientX;
+    mouseY = e.clientY;
+    
+    // Moves the dot instantly
+    cursorDot.style.left = `${mouseX}px`;
+    cursorDot.style.top = `${mouseY}px`;
+  });
+
+  // Animates the trailing circle
+  function animateCursor() {
+    // The 0.15 controls the speed of the trail (lower is slower/draggier)
+    circleX += (mouseX - circleX) * 0.15;
+    circleY += (mouseY - circleY) * 0.15;
+    
+    cursorCircle.style.left = `${circleX}px`;
+    cursorCircle.style.top = `${circleY}px`;
+    
+    requestAnimationFrame(animateCursor);
+  }
+  animateCursor();
+
+  // Expands the cursor when hovering over standard HTML elements
+  const hoverElements = document.querySelectorAll('button, a, .photo-frame img, .close-modal');
+  hoverElements.forEach(el => {
+    el.addEventListener('mouseenter', () => cursorCircle.classList.add('hovered'));
+    el.addEventListener('mouseleave', () => cursorCircle.classList.remove('hovered'));
+  });
+</script>
   </body>
 </html>

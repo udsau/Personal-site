@@ -2,7 +2,7 @@
 
 A personal website to showcase my projects, interests, and the random things I'm curious about. I wanted to build something that wasn't just another tech portfolio, but a place to showcase the things I make while sharing a little about the person behind them. :)
 
-🔗 **[Visit My Space](https://uditaspace.com)**
+**[Visit My Space](https://uditaspace.com)**
 
 ## Highlights
 
@@ -27,4 +27,4 @@ The original website had a paper inspired design, but I eventually redesigned it
 
 While working on this website, I explored CSS animations, canvas based star animations, responsive layouts etc. Redesigning the site also gave me an opportunity to experiment with visual effects while keeping the content usable across different screen sizes. 
 
-<sub><em>AI assistance was used to explore the background star effects, hover animations, hero section layout, typewriter animation logic, and responsive mobile navigation fixes. I implemented the resulting code into the website.</em></sub>
+<sub><em>AI assistance was used to explore the background star effects, hover animations and responsive mobile navigation fixes. I implemented the resulting code into the website.</em></sub>

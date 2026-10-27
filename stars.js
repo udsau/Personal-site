@@ -10,6 +10,11 @@ if (canvas && ctx) {
   let animationId = null;
   let shootingStarTimer = null;
 
+  // --- NEW MINIGAME VARIABLES ---
+  let userLines = []; // Remembers the connections the user draws
+  let selectedStar = null; // The star currently clicked
+  let mousePos = { x: null, y: null }; // Tracks mouse for the preview line
+
   const reducedMotion = window.matchMedia("(prefers-reduced-motion: reduce)");
 
   function createStars() {
@@ -23,6 +28,10 @@ if (canvas && ctx) {
       phase: Math.random() * Math.PI * 2,
       twinkleSpeed: Math.random() * 2 + 0.8,
     }));
+    
+    // Clear user lines if the screen is resized and stars reset
+    userLines = []; 
+    selectedStar = null;
   }
 
   function resizeCanvas() {
@@ -45,7 +54,6 @@ if (canvas && ctx) {
 
     if (reducedMotion.matches) return;
 
-    // Wait 5 seconds between appearances.
     const delay = 10000;
 
     shootingStarTimer = setTimeout(() => {
@@ -67,10 +75,12 @@ if (canvas && ctx) {
 
   function drawStars(deltaTime) {
     ctx.clearRect(0, 0, width, height);
+    
     for (const star of stars) {
       if (!reducedMotion.matches) {
         star.y += (star.speed * deltaTime) / 1000;
 
+        // When a star hits the bottom, it loops to the top
         if (star.y > height) {
           star.y = 0;
           star.x = Math.random() * width;
@@ -81,17 +91,8 @@ if (canvas && ctx) {
 
       const opacity = 0.45 + (Math.sin(star.phase) + 1) * 0.275;
 
-      // Soft halo around each star.
       const glowRadius = star.radius * 5;
-
-      const glow = ctx.createRadialGradient(
-        star.x,
-        star.y,
-        0,
-        star.x,
-        star.y,
-        glowRadius,
-      );
+      const glow = ctx.createRadialGradient(star.x, star.y, 0, star.x, star.y, glowRadius);
 
       glow.addColorStop(0, `rgba(135, 180, 255, ${opacity * 0.55})`);
       glow.addColorStop(1, "rgba(100, 150, 255, 0)");
@@ -101,28 +102,53 @@ if (canvas && ctx) {
       ctx.fillStyle = glow;
       ctx.fill();
 
-      // Bright centre of the star.
       ctx.beginPath();
       ctx.arc(star.x, star.y, star.radius, 0, Math.PI * 2);
       ctx.fillStyle = `rgba(235, 243, 255, ${opacity})`;
       ctx.fill();
+    } // End of star loop
+
+    // --- DRAW CONSTELLATION MINIGAME ---
+    ctx.save();
+    ctx.lineWidth = 1.5;
+    ctx.shadowBlur = 8;
+    ctx.shadowColor = "#8EBBFF";
+
+    // 1. Draw all saved connections
+    ctx.strokeStyle = "rgba(142, 187, 255, 0.7)"; 
+    for (const line of userLines) {
+      ctx.beginPath();
+      ctx.moveTo(line.start.x, line.start.y);
+      ctx.lineTo(line.end.x, line.end.y);
+      ctx.stroke();
     }
 
-    // Draw a shooting star while it is active.
-    // Draw a soft, glowing shooting star.
+    // 2. Draw active preview line & highlight selected star
+    if (selectedStar && mousePos.x !== null && !reducedMotion.matches) {
+      // Faint line to mouse
+      ctx.strokeStyle = "rgba(142, 187, 255, 0.3)";
+      ctx.beginPath();
+      ctx.moveTo(selectedStar.x, selectedStar.y);
+      ctx.lineTo(mousePos.x, mousePos.y);
+      ctx.stroke();
+      
+      // Bright dot on the selected star
+      ctx.beginPath();
+      ctx.arc(selectedStar.x, selectedStar.y, selectedStar.radius * 3, 0, Math.PI * 2);
+      ctx.fillStyle = "rgba(255, 255, 255, 0.9)";
+      ctx.fill();
+    }
+    ctx.restore();
+    // -----------------------------------
+
     if (shootingStar) {
       const s = shootingStar;
-
-      // Fade in and out smoothly.
       const progress = Math.min(s.progress / s.duration, 1);
       const opacity = Math.sin(progress * Math.PI);
-
       const tailX = s.x - Math.cos(s.angle) * s.length;
       const tailY = s.y - Math.sin(s.angle) * s.length;
 
-      // Soft blue glow along the trail.
       const trailGlow = ctx.createLinearGradient(tailX, tailY, s.x, s.y);
-
       trailGlow.addColorStop(0, "rgba(100, 150, 255, 0)");
       trailGlow.addColorStop(0.65, `rgba(135, 180, 255, ${opacity * 0.12})`);
       trailGlow.addColorStop(1, `rgba(170, 205, 255, ${opacity * 0.65})`);
@@ -139,9 +165,7 @@ if (canvas && ctx) {
       ctx.stroke();
       ctx.restore();
 
-      // Thin, bright centre of the trail.
       const trail = ctx.createLinearGradient(tailX, tailY, s.x, s.y);
-
       trail.addColorStop(0, "rgba(200, 220, 255, 0)");
       trail.addColorStop(1, `rgba(245, 250, 255, ${opacity})`);
 
@@ -154,11 +178,8 @@ if (canvas && ctx) {
       ctx.stroke();
       ctx.restore();
 
-      // Large, soft halo around the bright head.
       const glowRadius = 18;
-
       const glow = ctx.createRadialGradient(s.x, s.y, 0, s.x, s.y, glowRadius);
-
       glow.addColorStop(0, `rgba(255, 255, 255, ${opacity * 0.95})`);
       glow.addColorStop(0.2, `rgba(180, 210, 255, ${opacity * 0.6})`);
       glow.addColorStop(1, "rgba(100, 150, 255, 0)");
@@ -168,7 +189,6 @@ if (canvas && ctx) {
       ctx.arc(s.x, s.y, glowRadius, 0, Math.PI * 2);
       ctx.fill();
 
-      // Bright white head.
       ctx.save();
       ctx.shadowBlur = 14;
       ctx.shadowColor = "#8EBBFF";
@@ -182,12 +202,10 @@ if (canvas && ctx) {
 
   function animate(time) {
     const deltaTime = lastTime ? Math.min(time - lastTime, 50) : 0;
-
     lastTime = time;
 
     if (shootingStar) {
       const distance = (shootingStar.speed * deltaTime) / 1000;
-
       shootingStar.x += Math.cos(shootingStar.angle) * distance;
       shootingStar.y += Math.sin(shootingStar.angle) * distance;
       shootingStar.progress += deltaTime;
@@ -230,6 +248,57 @@ if (canvas && ctx) {
 
   window.addEventListener("resize", resizeCanvas);
   reducedMotion.addEventListener("change", startAnimation);
+
+  // --- MINIGAME EVENT LISTENERS ---
+  window.addEventListener("mousemove", (event) => {
+    mousePos.x = event.clientX;
+    mousePos.y = event.clientY;
+  });
+
+  window.addEventListener("mouseout", () => {
+    mousePos.x = null;
+    mousePos.y = null;
+  });
+
+  // Handles clicking the stars to connect them
+  window.addEventListener("click", (event) => {
+    if (reducedMotion.matches) return;
+
+    let clickedStar = null;
+    const clickTolerance = 30; // How close to the star they need to click (in pixels)
+
+    // Find the closest star to the mouse click
+    for (const star of stars) {
+      const dx = star.x - event.clientX;
+      const dy = star.y - event.clientY;
+      const distance = Math.sqrt(dx * dx + dy * dy);
+
+      if (distance < clickTolerance) {
+        clickedStar = star;
+        break; 
+      }
+    }
+
+    if (clickedStar) {
+      if (selectedStar) {
+        if (selectedStar !== clickedStar) {
+          // Connect the two stars!
+          userLines.push({ start: selectedStar, end: clickedStar });
+          // Make the newly clicked star the active one so they can keep drawing a chain
+          selectedStar = clickedStar; 
+        } else {
+          // They clicked the same star twice, cancel the selection
+          selectedStar = null;
+        }
+      } else {
+        // First click: select the star
+        selectedStar = clickedStar;
+      }
+    } else {
+      // They clicked on empty space, cancel the selection
+      selectedStar = null;
+    }
+  });
 
   resizeCanvas();
   startAnimation();
