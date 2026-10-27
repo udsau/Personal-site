@@ -1,4 +1,4 @@
-# Personal Website 🌌
+# Personal Website 
 
 A personal website to showcase my projects, interests, and the random things I'm curious about. I wanted to build something that wasn't just another tech portfolio, but a place to showcase the things I make while sharing a little about the person behind them. :)
 

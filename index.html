@@ -9,21 +9,23 @@
     />
 
     <title>My Space</title>
-    <link rel="stylesheet" href="./stylenoai.css?v=15" />
+    <link rel="stylesheet" href="./stylenoai.css?v=18" />
   </head>
 
   <body>
     <div class="cursor-circle"></div>
     <canvas id="starfield" aria-hidden="true"></canvas>
-<!-- Controls moved to the top right of the hero section -->
+
+    <!-- Constellation Editor Controls -->
   <div class="constellation-controls">
     <button id="toggle-edit-btn" class="terminal-btn">Edit Constellation: OFF</button>
     <button id="clear-canvas-btn" class="terminal-btn">Clear</button>
   </div>
-    <!-- Keep all your existing website content below -->
+
     <header class="hero">
       <h1 class="typewriter">Hey, I'm Udita :)</h1>
-      <!-- Constellation Editor Controls -->
+
+      <!-- Navigation Panel -->
   </div>
       <nav aria-label="Main navigation">
         <a href="#projects">projects</a>
@@ -52,23 +54,24 @@
         <h2>Things I'm interested in</h2>
 
         <p>
-          If we had to choose a motto in life, mine would probably be
-          <span class="motto"><em>"do it all"</em></span> I'm interested in a
-          little bit of everything, from coding and robotics to photography,
-          sketching, chess, and working out. Mainly, I love building stuff. Ever
-          since childhood, I've been a huge fan of building blocks (love legos
-          but too expensive) Then there's cosmos (BLACKHOLES!!), psychology and
-          poetry (i wrote a few). Too many interesting things out there!
+         If I had to choose a motto in life, it'd probably be <span class="motto"><em>"do it all"</em></span>.
+         I'm curious about a little bit of everything, from coding and robotics to photography, sketching, chess, and working out.
+         I especially love building things, I've been a fan of building blocks since childhood (still love lego, just wish it weren't so expensive).
+         Beyond that, I'm fascinated by the cosmos (BLACK HOLES :D), I enjoy writing poems, solving puzzles.
+         I can currently solve a 3×3 cube, a mirror cube, and a pyraminx, with plenty more on my hit list. 
+         SEE? There's just so much to learn. How am I supposed to stick to one thing?
+
         </p>
       </section>
 
+
+      <!-- Start of Projects section -->
       <section id="projects">
         <h2>Things I've Made</h2>
         <p>
           Here's a collection of things I've worked on (or at least tried to
           lol)
         </p>
-
         <div class="projects-grid">
           <article class="project-card project-success">
             <p class="status project-type">
@@ -200,7 +203,9 @@
           </article>
         </div>
       </section>
+      <!-- End of Projects section -->
 
+      <!-- Start of Photography section -->
       <section id="photography">
         <h2>Through my lens</h2>
 
@@ -285,9 +290,10 @@
           </figure>
         </div>
       </section>
+      <!-- End of Photography section -->
 
+      <!-- Contact Links -->
       <section id="contact">
-  <!-- Top Section: Links -->
   <h2>Contact me elsewhere</h2>
   <div class="links-inline">
     <a href="https://github.com/udsau" target="_blank" rel="noopener noreferrer">GitHub</a> ·
@@ -295,14 +301,13 @@
     <a href="https://www.instagram.com/udsau_/" target="_blank" rel="noopener noreferrer">Instagram</a>
   </div>
 
-  <!-- Bottom Section: The unified dark chatbox -->
+  <!-- Chatbox to send messages -->
   <div class="message-box-dark">
     <form id="transmission-form" class="contact-form-dark">
-      <!-- The main typing area -->
       <textarea id="sender-message" rows="3" required placeholder="Send me a Transmission!"></textarea>
-      <!-- SECRET HONEYPOT SPAM TRAP (Keep this hidden with CSS) -->
+
+      <!-- SPAM TRAP -->
   <input type="text" id="bot-field" style="display: none;" autocomplete="off">
-      <!-- The bottom row with Name and the small Send button -->
       <div class="form-bottom-row">
         <input type="text" id="sender-name" placeholder="Your Name">
         <button type="submit" id="submit-btn">Send</button>
@@ -315,11 +320,12 @@
     <footer>
       <p>Thank you for visiting!</p>
     </footer>
+
     <!-- Image Lightbox Modal -->
     <div id="image-modal" class="modal">
       <span class="close-modal">&times;</span>
 
-      <!-- This new div acts as the "frame thingy" -->
+      <!-- New added feature: Photograph pops up -->
       <div class="modal-frame">
         <img id="modal-img" />
         <figcaption id="modal-caption"></figcaption>
@@ -327,6 +333,7 @@
     </div>
     <script src="stars.js" defer></script>
     <script>
+
       // Repetative animation for the typewriter effect
       setInterval(function () {
         const el = document.querySelector(".typewriter");
@@ -339,6 +346,7 @@
       }, 20000);
     </script>
     <script>
+      
       // Fades the aurora out dynamically as you scroll down
       window.addEventListener("scroll", function () {
         const heroImage = document.querySelector("#hero::before");
@@ -381,50 +389,42 @@
           modal.classList.remove("active");
         }
       };
-
-      // Close the modal if they click anywhere on the background
-      modal.onclick = function (e) {
-        if (e.target !== modalImg) {
-          modal.classList.remove("active");
-        }
-      };
     </script>
     <script>
-  const cursorDot = document.querySelector('.cursor-dot');
-  const cursorCircle = document.querySelector('.cursor-circle');
-  
-  let mouseX = 0, mouseY = 0;
-  let circleX = 0, circleY = 0;
 
-  // Tracks the physical mouse
-  window.addEventListener('mousemove', (e) => {
-    mouseX = e.clientX;
-    mouseY = e.clientY;
-    
-    // Moves the dot instantly
-    cursorDot.style.left = `${mouseX}px`;
-    cursorDot.style.top = `${mouseY}px`;
-  });
+  // ONLY run the custom cursor on desktop screens (wider than 768px)
+  if (window.matchMedia("(min-width: 768px)").matches) {
+      const cursorDot = document.querySelector('.cursor-dot');
+      const cursorCircle = document.querySelector('.cursor-circle');
+      
+      let mouseX = 0, mouseY = 0;
+      let circleX = 0, circleY = 0;
 
-  // Animates the trailing circle
-  function animateCursor() {
-    // The 0.15 controls the speed of the trail (lower is slower/draggier)
-    circleX += (mouseX - circleX) * 0.15;
-    circleY += (mouseY - circleY) * 0.15;
-    
-    cursorCircle.style.left = `${circleX}px`;
-    cursorCircle.style.top = `${circleY}px`;
-    
-    requestAnimationFrame(animateCursor);
+      window.addEventListener('mousemove', (e) => {
+        mouseX = e.clientX;
+        mouseY = e.clientY;
+        
+        cursorDot.style.left = `${mouseX}px`;
+        cursorDot.style.top = `${mouseY}px`;
+      });
+
+      function animateCursor() {
+        circleX += (mouseX - circleX) * 0.15;
+        circleY += (mouseY - circleY) * 0.15;
+        
+        cursorCircle.style.left = `${circleX}px`;
+        cursorCircle.style.top = `${circleY}px`;
+        
+        requestAnimationFrame(animateCursor);
+      }
+      animateCursor();
+
+      const hoverElements = document.querySelectorAll('button, a, .photo-frame img, .close-modal');
+      hoverElements.forEach(el => {
+        el.addEventListener('mouseenter', () => cursorCircle.classList.add('hovered'));
+        el.addEventListener('mouseleave', () => cursorCircle.classList.remove('hovered'));
+      });
   }
-  animateCursor();
-
-  // Expands the cursor when hovering over standard HTML elements
-  const hoverElements = document.querySelectorAll('button, a, .photo-frame img, .close-modal');
-  hoverElements.forEach(el => {
-    el.addEventListener('mouseenter', () => cursorCircle.classList.add('hovered'));
-    el.addEventListener('mouseleave', () => cursorCircle.classList.remove('hovered'));
-  });
 </script>
-  </body>
+</body>
 </html>

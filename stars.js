@@ -12,19 +12,20 @@ if (canvas && ctx) {
 
   const reducedMotion = window.matchMedia("(prefers-reduced-motion: reduce)");
 
-  // --- 1. THE SEED: Predictable Randomizer ---
+  // --- Predictable Randomizer ---
   let seed = 1;
   function predictableRandom() {
     let x = Math.sin(seed++) * 10000;
     return x - Math.floor(x);
   }
 
-  // --- 2. CONSTELLATION EDITOR STATE ---
+  // --- CONSTELLATION EDITOR STATE ---
   let isEditMode = false;
-  let defaultLines = []; 
-  let userLines = JSON.parse(localStorage.getItem('userConstellationLines')) || []; 
-  
-  let selectedStar = null; 
+  let defaultLines = [];
+  let userLines =
+    JSON.parse(localStorage.getItem("userConstellationLines")) || [];
+
+  let selectedStar = null;
   let mousePos = { x: null, y: null };
 
   const toggleEditBtn = document.getElementById("toggle-edit-btn");
@@ -33,30 +34,32 @@ if (canvas && ctx) {
   if (toggleEditBtn) {
     toggleEditBtn.addEventListener("click", () => {
       isEditMode = !isEditMode;
-      toggleEditBtn.textContent = isEditMode ? "[Edit Constellation: ON]" : "[Edit Constellation: OFF]";
+      toggleEditBtn.textContent = isEditMode
+        ? "[Edit Constellation: ON]"
+        : "[Edit Constellation: OFF]";
       toggleEditBtn.style.color = isEditMode ? "#C4B5FD" : "#8EBBFF";
-      selectedStar = null; 
+      selectedStar = null;
     });
   }
 
   if (clearCanvasBtn) {
     clearCanvasBtn.addEventListener("click", () => {
       // Clear BOTH the user's lines and the default lines
-      userLines = []; 
-      defaultLines = []; 
-      
+      userLines = [];
+      defaultLines = [];
+
       // Clear saved lines from memory
-      localStorage.removeItem('userConstellationLines');
-      
+      localStorage.removeItem("userConstellationLines");
+
       // Save a flag so the browser remembers you cleared the defaults
-      localStorage.setItem('clearedDefaults', 'true'); 
-      
+      localStorage.setItem("clearedDefaults", "true");
+
       selectedStar = null;
     });
   }
 
   function createStars() {
-    seed = 999; 
+    seed = 999;
     const count = Math.min(220, Math.floor((width * height) / 6500));
 
     stars = Array.from({ length: count }, (_, index) => ({
@@ -72,41 +75,45 @@ if (canvas && ctx) {
 
   function initDefaultPattern() {
     defaultLines = [];
-    
-    const hasCleared = localStorage.getItem('clearedDefaults') === 'true';
-    
+
+    const hasCleared = localStorage.getItem("clearedDefaults") === "true";
+
     // If they hit "Clear" AND actually drew custom lines, keep defaults hidden
     if (hasCleared && userLines.length > 0) {
-        return; 
+      return;
     }
-    
+
     // If they hit "Clear" but drew NOTHING, forget the clear and bring defaults back!
     if (hasCleared && userLines.length === 0) {
-        localStorage.removeItem('clearedDefaults');
+      localStorage.removeItem("clearedDefaults");
     }
 
-    seed = 555; 
-    const numClusters = Math.max(5, Math.floor((width * height) / 200000)); 
-    
-    for (let i = 0; i < numClusters; i++) {
-        let validStars = stars.filter(s => s.y < height * 0.8);
-        if (validStars.length === 0) validStars = stars;
-        
-        let startStar = validStars[Math.floor(predictableRandom() * validStars.length)];
-        
-        let nearby = stars
-            .filter(s => s.id !== startStar.id) 
-            .map(s => ({ id: s.id, dist: Math.hypot(s.x - startStar.x, s.y - startStar.y) }))
-            .sort((a, b) => a.dist - b.dist)
-            .slice(0, Math.floor(predictableRandom() * 2) + 2); 
+    seed = 555;
+    const numClusters = Math.max(5, Math.floor((width * height) / 200000));
 
-        for (let j = 0; j < nearby.length; j++) {
-            defaultLines.push({ s1: startStar.id, s2: nearby[j].id });
-            
-            if (j > 0 && predictableRandom() > 0.6) {
-                defaultLines.push({ s1: nearby[j-1].id, s2: nearby[j].id });
-            }
+    for (let i = 0; i < numClusters; i++) {
+      let validStars = stars.filter((s) => s.y < height * 0.8);
+      if (validStars.length === 0) validStars = stars;
+
+      let startStar =
+        validStars[Math.floor(predictableRandom() * validStars.length)];
+
+      let nearby = stars
+        .filter((s) => s.id !== startStar.id)
+        .map((s) => ({
+          id: s.id,
+          dist: Math.hypot(s.x - startStar.x, s.y - startStar.y),
+        }))
+        .sort((a, b) => a.dist - b.dist)
+        .slice(0, Math.floor(predictableRandom() * 2) + 2);
+
+      for (let j = 0; j < nearby.length; j++) {
+        defaultLines.push({ s1: startStar.id, s2: nearby[j].id });
+
+        if (j > 0 && predictableRandom() > 0.6) {
+          defaultLines.push({ s1: nearby[j - 1].id, s2: nearby[j].id });
         }
+      }
     }
   }
 
@@ -152,7 +159,7 @@ if (canvas && ctx) {
         star.y += (star.speed * deltaTime) / 1000;
 
         if (star.y > height) {
-          star.y = -10; 
+          star.y = -10;
           star.x = Math.random() * width;
         }
         star.phase += (star.twinkleSpeed * deltaTime) / 1000;
@@ -160,7 +167,14 @@ if (canvas && ctx) {
 
       const opacity = 0.45 + (Math.sin(star.phase) + 1) * 0.275;
       const glowRadius = star.radius * 5;
-      const glow = ctx.createRadialGradient(star.x, star.y, 0, star.x, star.y, glowRadius);
+      const glow = ctx.createRadialGradient(
+        star.x,
+        star.y,
+        0,
+        star.x,
+        star.y,
+        glowRadius,
+      );
 
       // Syntax fixed here
       glow.addColorStop(0, `rgba(135, 180, 255, ${opacity * 0.55})`);
@@ -175,9 +189,9 @@ if (canvas && ctx) {
       ctx.arc(star.x, star.y, star.radius, 0, Math.PI * 2);
       ctx.fillStyle = `rgba(235, 243, 255, ${opacity})`;
       ctx.fill();
-    } 
+    }
 
-    // --- 3. DRAW COMBINED CONSTELLATION LINES ---
+    // --- DRAW COMBINED CONSTELLATION LINES ---
     ctx.save();
     ctx.lineWidth = 1.5;
     ctx.shadowBlur = 8;
@@ -187,26 +201,31 @@ if (canvas && ctx) {
     const allLines = [...defaultLines, ...userLines];
 
     for (const line of allLines) {
-      const star1 = stars.find(s => s.id === line.s1);
-      const star2 = stars.find(s => s.id === line.s2);
-      
-      if (star1 && star2) {
-          if (Math.abs(star1.y - star2.y) < height * 0.6) {
-              ctx.beginPath();
-              ctx.moveTo(star1.x, star1.y);
-              ctx.lineTo(star2.x, star2.y);
-              ctx.stroke();
+      const star1 = stars.find((s) => s.id === line.s1);
+      const star2 = stars.find((s) => s.id === line.s2);
 
-              ctx.fillStyle = "#8EBBFF";
-              ctx.beginPath();
-              ctx.arc(star1.x, star1.y, 2.5, 0, Math.PI * 2);
-              ctx.arc(star2.x, star2.y, 2.5, 0, Math.PI * 2);
-              ctx.fill();
-          }
+      if (star1 && star2) {
+        if (Math.abs(star1.y - star2.y) < height * 0.6) {
+          ctx.beginPath();
+          ctx.moveTo(star1.x, star1.y);
+          ctx.lineTo(star2.x, star2.y);
+          ctx.stroke();
+
+          ctx.fillStyle = "#8EBBFF";
+          ctx.beginPath();
+          ctx.arc(star1.x, star1.y, 2.5, 0, Math.PI * 2);
+          ctx.arc(star2.x, star2.y, 2.5, 0, Math.PI * 2);
+          ctx.fill();
+        }
       }
     }
 
-    if (isEditMode && selectedStar && mousePos.x !== null && !reducedMotion.matches) {
+    if (
+      isEditMode &&
+      selectedStar &&
+      mousePos.x !== null &&
+      !reducedMotion.matches
+    ) {
       ctx.strokeStyle = "rgba(142, 187, 255, 0.5)";
       ctx.beginPath();
       ctx.moveTo(selectedStar.x, selectedStar.y);
@@ -214,7 +233,13 @@ if (canvas && ctx) {
       ctx.stroke();
 
       ctx.beginPath();
-      ctx.arc(selectedStar.x, selectedStar.y, selectedStar.radius * 3, 0, Math.PI * 2);
+      ctx.arc(
+        selectedStar.x,
+        selectedStar.y,
+        selectedStar.radius * 3,
+        0,
+        Math.PI * 2,
+      );
       ctx.fillStyle = "rgba(255, 255, 255, 0.9)";
       ctx.fill();
     }
@@ -319,7 +344,7 @@ if (canvas && ctx) {
     if (!isEditMode || reducedMotion.matches) return;
 
     let clickedStar = null;
-    const clickTolerance = 30; 
+    const clickTolerance = 30;
 
     for (const star of stars) {
       const dx = star.x - event.clientX;
@@ -334,11 +359,14 @@ if (canvas && ctx) {
       if (selectedStar) {
         if (selectedStar !== clickedStar) {
           userLines.push({ s1: selectedStar.id, s2: clickedStar.id });
-          localStorage.setItem('userConstellationLines', JSON.stringify(userLines));
-          
-          selectedStar = clickedStar; 
+          localStorage.setItem(
+            "userConstellationLines",
+            JSON.stringify(userLines),
+          );
+
+          selectedStar = clickedStar;
         } else {
-          selectedStar = null; 
+          selectedStar = null;
         }
       } else {
         selectedStar = clickedStar;
@@ -356,30 +384,31 @@ if (canvas && ctx) {
 }
 
 // ==========================================
-// DISCORD WEBHOOK CONTACT FORM (Restored)
+// DISCORD WEBHOOK CONTACT FORM
 // ==========================================
-const webhookURL = "https://discord.com/api/webhooks/1564637470719615016/igfwRvFu_rBD6rjIHtYmeFwfACtsWP09N6tyLS3L5-wJoR5C-1oQmQyN8pdzfjvjldDX";
+const webhookURL =
+  "https://discord.com/api/webhooks/1564637470719615016/igfwRvFu_rBD6rjIHtYmeFwfACtsWP09N6tyLS3L5-wJoR5C-1oQmQyN8pdzfjvjldDX";
 
 const contactForm = document.getElementById("transmission-form");
 const submitBtn = document.getElementById("submit-btn");
 
-let lastSubmissionTime = 0; 
-const cooldownDuration = 20000; 
+let lastSubmissionTime = 0;
+const cooldownDuration = 20000;
 
 if (contactForm) {
   contactForm.addEventListener("submit", function (e) {
     e.preventDefault();
 
-    const botField = document.getElementById('bot-field')?.value;
-    if (botField && botField !== "") return; 
+    const botField = document.getElementById("bot-field")?.value;
+    if (botField && botField !== "") return;
 
     const currentTime = Date.now();
     const timeElapsed = currentTime - lastSubmissionTime;
-    
+
     if (timeElapsed < cooldownDuration) {
       const secondsLeft = Math.ceil((cooldownDuration - timeElapsed) / 1000);
       submitBtn.innerText = `Wait ${secondsLeft}s`;
-      setTimeout(() => submitBtn.innerText = "Send", 2000);
+      setTimeout(() => (submitBtn.innerText = "Send"), 2000);
       return;
     }
 
@@ -395,11 +424,13 @@ if (contactForm) {
     const payload = {
       username: "Portfolio Website",
       avatar_url: "https://i.imgur.com/4M34hi2.png",
-      embeds: [{
+      embeds: [
+        {
           title: `New Message from: ${finalName}`,
           description: messageInput,
-          color: 9354239, 
-      }],
+          color: 9354239,
+        },
+      ],
     };
 
     fetch(webhookURL, {
@@ -409,7 +440,7 @@ if (contactForm) {
     })
       .then((response) => {
         if (response.ok) {
-          lastSubmissionTime = Date.now(); 
+          lastSubmissionTime = Date.now();
           submitBtn.innerText = "Sent!";
           contactForm.reset();
           setTimeout(() => {
