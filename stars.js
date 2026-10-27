@@ -387,7 +387,7 @@ if (canvas && ctx) {
 // DISCORD WEBHOOK CONTACT FORM
 // ==========================================
 const webhookURL =
-  "https://discord.com/api/webhooks/1564637470719615016/igfwRvFu_rBD6rjIHtYmeFwfACtsWP09N6tyLS3L5-wJoR5C-1oQmQyN8pdzfjvjldDX";
+  "https://portfolio-contact.sauudita.workers.dev/";
 
 const contactForm = document.getElementById("transmission-form");
 const submitBtn = document.getElementById("submit-btn");
