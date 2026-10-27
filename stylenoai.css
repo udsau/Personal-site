@@ -130,6 +130,8 @@ nav a:visited {
 
 nav a:hover,
 nav a:focus-visible {
+    background: rgba(142, 187, 255, 0.15);
+    border-color: #C4B5FD;
     color: #C4B5FD !important;
     text-shadow: 0 0 10px rgba(142, 187, 255, 0.45);
 }
@@ -634,11 +636,6 @@ section, footer {
     text-shadow: 0 0 10px rgba(142, 187, 255, 0.45);
 }
 
-.transmission-heading {
-    margin-top: 10px;
-    margin-bottom: 16px;
-}
-
 /* --- THE DARK CHATBOX --- */
 .message-box-dark {
     margin-left: 30px;
@@ -716,4 +713,90 @@ section, footer {
     color: #C4B5FD;
     border-color: #C4B5FD;
     transform: translateY(-2px);
+}
+/* --- MOBILE LAYOUT FIXES FOR CONTACT SECTION --- */
+@media (max-width: 750px) {
+    /* Resets left/right margins to fit phone screens snugly */
+    .links-inline {
+        margin-left: 20px;
+        margin-right: 20px;
+    }
+
+    .message-box-dark {
+        margin-left: 20px;
+        margin-right: 20px;
+        max-width: 100%; 
+        padding: 12px;
+    }
+
+    /* Stacks the name input and send button vertically on mobile so nothing overflows */
+    .form-bottom-row {
+        flex-direction: column;
+        align-items: stretch;
+        gap: 10px;
+        border-top: 1px solid var(--card-border);
+        padding-top: 10px;
+    }
+
+    .contact-form-dark input {
+        font-size: 0.9rem;
+        padding: 10px;
+        width: 100%;
+        box-sizing: border-box;
+    }
+
+    .contact-form-dark button {
+        width: 100%;
+        padding: 10px;
+        font-size: 0.9rem;
+        text-align: center;
+    }
+}
+.constellation-controls {
+    margin-top: 20px;
+    display: flex;
+    gap: 12px;
+}
+
+.terminal-btn {
+    background: rgba(20, 20, 29, 0.7);
+    color: #8EBBFF;
+    border: 1px solid rgba(142, 187, 255, 0.3);
+    padding: 8px 16px;
+    border-radius: 6px;
+    font-family: inherit;
+    font-size: 0.9rem;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    backdrop-filter: blur(5px);
+}
+
+.terminal-btn:hover {
+    background: rgba(142, 187, 255, 0.15);
+    border-color: #C4B5FD;
+    color: #C4B5FD;
+    box-shadow: 0 0 10px rgba(142, 187, 255, 0.3);
+}
+/* Ensure the hero section can contain absolutely positioned elements */
+.hero {
+    position: relative;
+}
+
+/* Moves the buttons to the top right corner */
+.constellation-controls {
+    position: absolute;
+    top: 30px;
+    right: 30px;
+    display: flex;
+    gap: 12px;
+    z-index: 50;
+}
+
+@media (max-width: 600px) {
+    .constellation-controls {
+        top: 20px;
+        right: 20px;
+        flex-direction: column; /* Stacks them nicely on phones */
+        gap: 8px;
+    }
 }

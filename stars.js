@@ -10,51 +10,105 @@ if (canvas && ctx) {
   let animationId = null;
   let shootingStarTimer = null;
 
-  // --- NEW MINIGAME VARIABLES ---
-  let userLines = []; // Remembers the connections the user draws
-  let selectedStar = null; // The star currently clicked
-  let mousePos = { x: null, y: null }; // Tracks mouse for the preview line
-
   const reducedMotion = window.matchMedia("(prefers-reduced-motion: reduce)");
 
+  // --- 1. THE SEED: Predictable Randomizer ---
+  // This ensures stars and default constellations spawn in the EXACT same spots on every reload.
+  let seed = 1;
+  function predictableRandom() {
+    let x = Math.sin(seed++) * 10000;
+    return x - Math.floor(x);
+  }
+
+  // --- 2. CONSTELLATION EDITOR STATE ---
+  let isEditMode = false;
+  let defaultLines = []; // Layer 1: The predefined shapes (always load)
+  let userLines = JSON.parse(localStorage.getItem('userConstellationLines')) || []; // Layer 2: User additions
+  
+  let selectedStar = null; 
+  let mousePos = { x: null, y: null };
+
+  const toggleEditBtn = document.getElementById("toggle-edit-btn");
+  const clearCanvasBtn = document.getElementById("clear-canvas-btn");
+
+  if (toggleEditBtn) {
+    toggleEditBtn.addEventListener("click", () => {
+      isEditMode = !isEditMode;
+      toggleEditBtn.textContent = isEditMode ? "[Edit Constellation: ON]" : "[Edit Constellation: OFF]";
+      toggleEditBtn.style.color = isEditMode ? "#C4B5FD" : "#8EBBFF";
+      selectedStar = null; 
+    });
+  }
+
+  if (clearCanvasBtn) {
+    clearCanvasBtn.addEventListener("click", () => {
+      userLines = []; // ONLY clears the user's custom lines
+      localStorage.removeItem('userConstellationLines');
+      selectedStar = null;
+    });
+  }
+
   function createStars() {
+    seed = 999; // Reset seed before creating stars so they are identically placed
     const count = Math.min(220, Math.floor((width * height) / 6500));
 
-    stars = Array.from({ length: count }, () => ({
-      x: Math.random() * width,
-      y: Math.random() * height,
-      radius: Math.random() * 1.2 + 0.4,
-      speed: Math.random() * 4 + 1,
-      phase: Math.random() * Math.PI * 2,
-      twinkleSpeed: Math.random() * 2 + 0.8,
+    stars = Array.from({ length: count }, (_, index) => ({
+      id: index,
+      x: predictableRandom() * width,
+      y: predictableRandom() * height,
+      radius: predictableRandom() * 1.2 + 0.4,
+      speed: predictableRandom() * 4 + 1,
+      phase: predictableRandom() * Math.PI * 2,
+      twinkleSpeed: predictableRandom() * 2 + 0.8,
     }));
+  }
 
-    // Clear user lines if the screen is resized and stars reset
-    userLines = [];
-    selectedStar = null;
+  function initDefaultPattern() {
+    defaultLines = [];
+    seed = 555; // Reset seed so the algorithm picks the exact same clusters every time
+    
+    const numClusters = Math.max(5, Math.floor((width * height) / 200000)); 
+    
+    for (let i = 0; i < numClusters; i++) {
+        let validStars = stars.filter(s => s.y < height * 0.8);
+        if (validStars.length === 0) validStars = stars;
+        
+        let startStar = validStars[Math.floor(predictableRandom() * validStars.length)];
+        
+        let nearby = stars
+            .filter(s => s.id !== startStar.id) 
+            .map(s => ({ id: s.id, dist: Math.hypot(s.x - startStar.x, s.y - startStar.y) }))
+            .sort((a, b) => a.dist - b.dist)
+            .slice(0, Math.floor(predictableRandom() * 2) + 2); 
+
+        for (let j = 0; j < nearby.length; j++) {
+            defaultLines.push({ s1: startStar.id, s2: nearby[j].id });
+            
+            // Random chance to close the shape (triangles/diamonds)
+            if (j > 0 && predictableRandom() > 0.6) {
+                defaultLines.push({ s1: nearby[j-1].id, s2: nearby[j].id });
+            }
+        }
+    }
   }
 
   function resizeCanvas() {
     const dpr = Math.min(window.devicePixelRatio || 1, 2);
-
     width = window.innerWidth;
     height = window.innerHeight;
 
     canvas.width = Math.round(width * dpr);
     canvas.height = Math.round(height * dpr);
-
     ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
 
     createStars();
+    initDefaultPattern();
     drawStars(0);
   }
 
   function scheduleShootingStar() {
     clearTimeout(shootingStarTimer);
-
     if (reducedMotion.matches) return;
-
-    const delay = 10000;
 
     shootingStarTimer = setTimeout(() => {
       if (!document.hidden && !reducedMotion.matches) {
@@ -68,9 +122,8 @@ if (canvas && ctx) {
           angle: Math.PI / 4,
         };
       }
-
       scheduleShootingStar();
-    }, delay);
+    }, 10000);
   }
 
   function drawStars(deltaTime) {
@@ -80,26 +133,16 @@ if (canvas && ctx) {
       if (!reducedMotion.matches) {
         star.y += (star.speed * deltaTime) / 1000;
 
-        // When a star hits the bottom, it loops to the top
         if (star.y > height) {
-          star.y = 0;
+          star.y = -10; 
           star.x = Math.random() * width;
         }
-
         star.phase += (star.twinkleSpeed * deltaTime) / 1000;
       }
 
       const opacity = 0.45 + (Math.sin(star.phase) + 1) * 0.275;
-
       const glowRadius = star.radius * 5;
-      const glow = ctx.createRadialGradient(
-        star.x,
-        star.y,
-        0,
-        star.x,
-        star.y,
-        glowRadius,
-      );
+      const glow = ctx.createRadialGradient(star.x, star.y, 0, star.x, star.y, glowRadius);
 
       glow.addColorStop(0, `rgba(135, 180, 255, ${opacity * 0.55})`);
       glow.addColorStop(1, "rgba(100, 150, 255, 0)");
@@ -113,47 +156,53 @@ if (canvas && ctx) {
       ctx.arc(star.x, star.y, star.radius, 0, Math.PI * 2);
       ctx.fillStyle = `rgba(235, 243, 255, ${opacity})`;
       ctx.fill();
-    } // End of star loop
+    } 
 
-    // --- DRAW CONSTELLATION MINIGAME ---
+    // --- 3. DRAW COMBINED CONSTELLATION LINES ---
     ctx.save();
     ctx.lineWidth = 1.5;
     ctx.shadowBlur = 8;
     ctx.shadowColor = "#8EBBFF";
-
-    // 1. Draw all saved connections
     ctx.strokeStyle = "rgba(142, 187, 255, 0.7)";
-    for (const line of userLines) {
-      ctx.beginPath();
-      ctx.moveTo(line.start.x, line.start.y);
-      ctx.lineTo(line.end.x, line.end.y);
-      ctx.stroke();
+
+    // Merge both arrays so we draw the defaults AND the user's additions
+    const allLines = [...defaultLines, ...userLines];
+
+    for (const line of allLines) {
+      const star1 = stars.find(s => s.id === line.s1);
+      const star2 = stars.find(s => s.id === line.s2);
+      
+      if (star1 && star2) {
+          if (Math.abs(star1.y - star2.y) < height * 0.6) {
+              ctx.beginPath();
+              ctx.moveTo(star1.x, star1.y);
+              ctx.lineTo(star2.x, star2.y);
+              ctx.stroke();
+
+              ctx.fillStyle = "#8EBBFF";
+              ctx.beginPath();
+              ctx.arc(star1.x, star1.y, 2.5, 0, Math.PI * 2);
+              ctx.arc(star2.x, star2.y, 2.5, 0, Math.PI * 2);
+              ctx.fill();
+          }
+      }
     }
 
-    // 2. Draw active preview line & highlight selected star
-    if (selectedStar && mousePos.x !== null && !reducedMotion.matches) {
-      // Faint line to mouse
-      ctx.strokeStyle = "rgba(142, 187, 255, 0.3)";
+    if (isEditMode && selectedStar && mousePos.x !== null && !reducedMotion.matches) {
+      ctx.strokeStyle = "rgba(142, 187, 255, 0.5)";
       ctx.beginPath();
       ctx.moveTo(selectedStar.x, selectedStar.y);
       ctx.lineTo(mousePos.x, mousePos.y);
       ctx.stroke();
 
-      // Bright dot on the selected star
       ctx.beginPath();
-      ctx.arc(
-        selectedStar.x,
-        selectedStar.y,
-        selectedStar.radius * 3,
-        0,
-        Math.PI * 2,
-      );
+      ctx.arc(selectedStar.x, selectedStar.y, selectedStar.radius * 3, 0, Math.PI * 2);
       ctx.fillStyle = "rgba(255, 255, 255, 0.9)";
       ctx.fill();
     }
     ctx.restore();
-    // -----------------------------------
 
+    // Shooting star render code
     if (shootingStar) {
       const s = shootingStar;
       const progress = Math.min(s.progress / s.duration, 1);
@@ -216,22 +265,6 @@ if (canvas && ctx) {
   function animate(time) {
     const deltaTime = lastTime ? Math.min(time - lastTime, 50) : 0;
     lastTime = time;
-
-    if (shootingStar) {
-      const distance = (shootingStar.speed * deltaTime) / 1000;
-      shootingStar.x += Math.cos(shootingStar.angle) * distance;
-      shootingStar.y += Math.sin(shootingStar.angle) * distance;
-      shootingStar.progress += deltaTime;
-
-      if (
-        shootingStar.progress >= shootingStar.duration ||
-        shootingStar.x > width + 200 ||
-        shootingStar.y > height + 200
-      ) {
-        shootingStar = null;
-      }
-    }
-
     drawStars(deltaTime);
     animationId = requestAnimationFrame(animate);
   }
@@ -239,7 +272,6 @@ if (canvas && ctx) {
   function startAnimation() {
     cancelAnimationFrame(animationId);
     clearTimeout(shootingStarTimer);
-
     shootingStar = null;
     lastTime = 0;
 
@@ -259,34 +291,21 @@ if (canvas && ctx) {
     }
   });
 
-  window.addEventListener("resize", resizeCanvas);
-  reducedMotion.addEventListener("change", startAnimation);
-
-  // --- MINIGAME EVENT LISTENERS ---
   window.addEventListener("mousemove", (event) => {
     mousePos.x = event.clientX;
     mousePos.y = event.clientY;
   });
 
-  window.addEventListener("mouseout", () => {
-    mousePos.x = null;
-    mousePos.y = null;
-  });
-
-  // Handles clicking the stars to connect them
   window.addEventListener("click", (event) => {
-    if (reducedMotion.matches) return;
+    if (!isEditMode || reducedMotion.matches) return;
 
     let clickedStar = null;
-    const clickTolerance = 30; // How close to the star they need to click (in pixels)
+    const clickTolerance = 30; 
 
-    // Find the closest star to the mouse click
     for (const star of stars) {
       const dx = star.x - event.clientX;
       const dy = star.y - event.clientY;
-      const distance = Math.sqrt(dx * dx + dy * dy);
-
-      if (distance < clickTolerance) {
+      if (Math.sqrt(dx * dx + dy * dy) < clickTolerance) {
         clickedStar = star;
         break;
       }
@@ -295,108 +314,24 @@ if (canvas && ctx) {
     if (clickedStar) {
       if (selectedStar) {
         if (selectedStar !== clickedStar) {
-          // Connect the two stars!
-          userLines.push({ start: selectedStar, end: clickedStar });
-          // Make the newly clicked star the active one so they can keep drawing a chain
-          selectedStar = clickedStar;
+          // Add specifically to the user array, leave the defaults alone
+          userLines.push({ s1: selectedStar.id, s2: clickedStar.id });
+          localStorage.setItem('userConstellationLines', JSON.stringify(userLines));
+          selectedStar = clickedStar; 
         } else {
-          // They clicked the same star twice, cancel the selection
-          selectedStar = null;
+          selectedStar = null; 
         }
       } else {
-        // First click: select the star
         selectedStar = clickedStar;
       }
     } else {
-      // They clicked on empty space, cancel the selection
       selectedStar = null;
     }
   });
 
+  window.addEventListener("resize", resizeCanvas);
+  reducedMotion.addEventListener("change", startAnimation);
+
   resizeCanvas();
   startAnimation();
-}
-// Paste your Discord link right here inside the quotes:
-const webhookURL = "https://discord.com/api/webhooks/1564637470719615016/igfwRvFu_rBD6rjIHtYmeFwfACtsWP09N6tyLS3L5-wJoR5C-1oQmQyN8pdzfjvjldDX";
-
-const contactForm = document.getElementById("transmission-form");
-const submitBtn = document.getElementById("submit-btn");
-
-let lastSubmissionTime = 0; // Tracks the last time a message was sent
-const cooldownDuration = 20000; // 20 seconds cooldown in milliseconds
-
-if (contactForm) {
-  contactForm.addEventListener("submit", function (e) {
-    e.preventDefault();
-
-    // 1. SPAM TRAP: Check if the hidden bot field was filled out
-    const botField = document.getElementById('bot-field').value;
-    if (botField !== "") {
-      console.warn("Spam bot detected.");
-      return; // Silently block the bot
-    }
-
-    // 2. COOLDOWN CHECK: Prevent rapid-fire clicking
-    const currentTime = Date.now();
-    const timeElapsed = currentTime - lastSubmissionTime;
-    
-    if (timeElapsed < cooldownDuration) {
-      const secondsLeft = Math.ceil((cooldownDuration - timeElapsed) / 1000);
-      submitBtn.innerText = `Wait ${secondsLeft}s`;
-      setTimeout(() => {
-        submitBtn.innerText = "Send";
-      }, 2000);
-      return;
-    }
-
-    const nameInput = document.getElementById("sender-name").value.trim();
-    const messageInput = document.getElementById("sender-message").value.trim();
-
-    // 3. VALIDATION: Prevent empty messages
-    if (messageInput === "") return;
-
-    const finalName = nameInput === "" ? "Anonymous Visitor" : nameInput;
-
-    submitBtn.innerText = "Transmitting...";
-    submitBtn.disabled = true;
-
-    // Packages the message for Discord
-    const payload = {
-      username: "Portfolio Website",
-      avatar_url: "https://i.imgur.com/4M34hi2.png",
-      embeds: [
-        {
-          title: `New Message from: ${finalName}`,
-          description: messageInput,
-          color: 9354239, // Your theme's blue color
-        },
-      ],
-    };
-
-    // Sends the message
-    fetch(webhookURL, {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify(payload),
-    })
-      .then((response) => {
-        if (response.ok) {
-          lastSubmissionTime = Date.now(); // Reset cooldown timer
-          submitBtn.innerText = "Sent!";
-          contactForm.reset();
-          
-          setTimeout(() => {
-            submitBtn.innerText = "Send";
-            submitBtn.disabled = false;
-          }, 3000);
-        } else {
-          submitBtn.innerText = "Error!";
-          submitBtn.disabled = false;
-        }
-      })
-      .catch(() => {
-        submitBtn.innerText = "Error!";
-        submitBtn.disabled = false;
-      });
-  });
 }
