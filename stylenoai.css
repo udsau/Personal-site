@@ -11,7 +11,57 @@
   --card-bg: #171720;
   --card-border: #34313f;
 }
+#loading-screen {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100vh;
+    background-color: #0b0d14; /* Matches your dark space theme */
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    z-index: 9999;
+    transition: opacity 0.6s ease-out, visibility 0.6s ease-out;
+}
 
+/* The spinning ring */
+.loader-ring {
+    width: 50px;
+    height: 50px;
+    border: 3px solid rgba(142, 187, 255, 0.1); /* Faint blue track */
+    border-top-color: #8ebbff; /* Bright glowing blue edge */
+    border-radius: 50%;
+    animation: spin 1s cubic-bezier(0.55, 0.085, 0.68, 0.53) infinite;
+    box-shadow: 0 0 15px rgba(142, 187, 255, 0.4);
+    margin-bottom: 20px;
+}
+
+.loader-text {
+    color: #8ebbff;
+    font-family: monospace;
+    font-size: 0.9rem;
+    letter-spacing: 2px;
+    animation: pulse 1.5s infinite alternate;
+}
+
+/* The class JavaScript will add to fade it out */
+#loading-screen.hidden {
+    opacity: 0;
+    visibility: hidden;
+}
+
+/* Animations */
+@keyframes spin {
+    0% { transform: rotate(0deg); }
+    100% { transform: rotate(360deg); }
+}
+
+@keyframes pulse {
+    0% { opacity: 0.5; }
+    100% { opacity: 1; }
+}
 /* Base */
 html {
   scroll-behavior: smooth;

@@ -503,3 +503,13 @@ document.addEventListener('DOMContentLoaded', () => {
         }
     });
 });
+window.addEventListener('load', () => {
+    const loadingScreen = document.getElementById('loading-screen');
+    
+    // Add a tiny 300ms delay just to make the transition feel smooth
+    setTimeout(() => {
+        if (loadingScreen) {
+            loadingScreen.classList.add('hidden');
+        }
+    }, 300);
+});
