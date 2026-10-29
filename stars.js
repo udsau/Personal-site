@@ -422,7 +422,7 @@ if (contactForm) {
     submitBtn.disabled = true;
 
     const payload = {
-      username: "Portfolio Website",
+      username: "Transmisson Bot",
       avatar_url: "https://i.imgur.com/4M34hi2.png",
       embeds: [
         {
@@ -458,3 +458,48 @@ if (contactForm) {
       });
   });
 }
+//Fix loading 
+const backgroundImage = new Image();
+backgroundImage.src = new URL("nightsky.webp", document.baseURI).href;
+
+backgroundImage.onload = () => {
+  document.querySelectorAll("#hero, .hero").forEach((hero) => {
+    hero.classList.add("background-loaded");
+  });
+};
+document.addEventListener('DOMContentLoaded', () => {
+    const npcGuide = document.getElementById('npc-guide');
+    const editButton = document.querySelector('#toggle-edit-btn'); 
+
+    // Trigger pop-up animation instantly on load
+    setTimeout(() => {
+        if (npcGuide) {
+            npcGuide.classList.add('show');
+        }
+    }, 10);
+
+    const banishNPC = () => {
+        if (npcGuide && npcGuide.classList.contains('show')) {
+            npcGuide.classList.remove('show');
+            setTimeout(() => {
+                npcGuide.style.display = 'none';
+            }, 1500); // Waits for the fade animation to finish before removing from layout
+        }
+    };
+
+    // ACTION 1: Disappear when "Edit Constellation" is clicked
+    if (editButton) {
+        editButton.addEventListener('click', banishNPC);
+    }
+
+    // ACTION 2: Disappear automatically after 20 seconds
+    setTimeout(banishNPC, 20000);
+
+    // ACTION 3: Disappear when the user scrolls down away from the home screen
+    window.addEventListener('scroll', () => {
+        // If the user scrolls down more than 150 pixels, trigger the fade out
+        if (window.scrollY > 150) { 
+            banishNPC();
+        }
+    });
+});

@@ -621,7 +621,6 @@ footer {
   color: #8ebbff;
   text-shadow: 0 0 10px rgba(142, 187, 255, 0.28);
   letter-spacing: 0.5px;
-  animation: float-bounce 2s infinite ease-in-out;
 }
 
 @keyframes float-bounce {
@@ -642,16 +641,29 @@ footer {
   width: 100%;
   height: 100%;
 
-  background-image: url("nightsky.jpg");
+  background-image: url("nightsky.webp");
   background-size: cover;
   background-position: center;
   background-repeat: no-repeat;
 
-  z-index: -1; /* This now safely puts it behind the text, but ABOVE the black space background */
-  opacity: 0.6;
+  z-index: -1;
+  opacity: 0;
+  transition: opacity 0.8s ease;
 
   -webkit-mask-image: linear-gradient(to bottom, black 50%, transparent 100%);
   mask-image: linear-gradient(to bottom, black 50%, transparent 100%);
+}
+
+#hero.background-loaded::before,
+.hero.background-loaded::before {
+  opacity: 0.6;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  #hero::before,
+  .hero::before {
+    transition: none;
+  }
 }
 /* Layout for the Contact Section */
 #contact {
@@ -877,4 +889,78 @@ footer {
   * {
     cursor: auto !important;
   }
+}
+/* NPC Guide Base Setup */
+.npc-container {
+    position: fixed;
+    bottom: 20px;
+    right: 20px;
+    display: flex;
+    align-items: flex-end; /* Aligns items to the bottom so we can push the bubble up */
+    gap: 0px;
+    z-index: 999;
+    
+    /* ANIMATION STARTING STATE: Invisible and pushed way down */
+    opacity: 0;
+    transform: translateY(150px); 
+    transition: opacity 1.5s ease-out, transform 1.5s ease-out;
+    pointer-events: none; 
+}
+
+.npc-container.show {
+    /* ANIMATION ENDING STATE: Fully visible in normal position */
+    opacity: 1;
+    transform: translateY(0);
+}
+
+.npc-speech-bubble {
+    position: relative;
+    z-index: 2;
+    background: linear-gradient(135deg, rgba(20, 25, 45, 0.95), rgba(10, 15, 30, 0.95));
+    backdrop-filter: blur(10px);
+    
+    /* The glowing border */
+    border: 2px solid rgba(142, 187, 255, 0.6);
+    box-shadow: 0 8px 25px rgba(0, 0, 0, 0.6), 0 0 15px rgba(142, 187, 255, 0.3);
+    
+    color: #fff;
+    border-radius: 24px; 
+    line-height: 1.5;
+    text-align: center;
+    max-width: 350px; 
+    padding: 4px 14px; 
+    font-size: 0.85rem; 
+    margin-bottom: 162px; 
+    margin-right: -60px; 
+    animation: float-bounce 2s infinite ease-in-out;
+}
+
+
+.npc-image {
+    width: 200px; 
+    height: auto;
+    filter: drop-shadow(0 0 8px rgba(142, 187, 255, 0.4)); 
+    animation: float-bounce 2s infinite ease-in-out;
+}
+
+/* Mobile Adjustment */
+@media (max-width: 768px) {
+    .npc-container {
+        flex-direction: column; /* Stacks items vertically */
+        align-items: flex-end; 
+        gap: 5px; 
+        bottom: 15px;
+        right: 15px;
+    }
+
+    .npc-image {
+        /* Shrinks the astronaut slightly so it doesn't block buttons */
+        width: 110px; 
+    }
+
+    .npc-speech-bubble {
+        max-width: 260px; /* Keeps bubble from spilling off the left side of the screen */
+        margin-right: 0; 
+        margin-bottom: 0; 
+    }
 }
