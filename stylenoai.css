@@ -12,6 +12,10 @@
   --card-border: #34313f;
 }
 #loading-screen {
+  display: flex;
+    flex-direction: column;
+    justify-content: center; /* Centers everything vertically */
+    align-items: center;
     position: fixed;
     top: 0;
     left: 0;
@@ -25,17 +29,45 @@
     z-index: 9999;
     transition: opacity 0.6s ease-out, visibility 0.6s ease-out;
 }
+/* New wrapper to stack the ring and text on top of each other */
+.loader-circle-wrap {
+    position: relative;
+    width: 90px;
+    height: 90px;
+    margin-bottom: 20px;
+}
 
 /* The spinning ring */
 .loader-ring {
-    width: 50px;
-    height: 50px;
-    border: 3px solid rgba(142, 187, 255, 0.1); /* Faint blue track */
-    border-top-color: #8ebbff; /* Bright glowing blue edge */
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    box-sizing: border-box; /* Ensures the borders don't warp the size */
+    border: 3px solid rgba(142, 187, 255, 0.1); 
+    border-top-color: #8ebbff; 
     border-radius: 50%;
     animation: spin 1s cubic-bezier(0.55, 0.085, 0.68, 0.53) infinite;
     box-shadow: 0 0 15px rgba(142, 187, 255, 0.4);
-    margin-bottom: 20px;
+}
+
+/* The text perfectly locked in the middle */
+#loading-percentage {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%); /* Pins it to the exact mathematical center */
+    margin: 0;
+    padding: 0;
+    z-index: 2; 
+    
+    color: #fff;
+    font-family: monospace;
+    font-size: 1.1rem; 
+    font-weight: bold;
+    letter-spacing: 1px;
+    text-shadow: 0 0 12px rgba(142, 187, 255, 0.8); 
 }
 
 .loader-text {

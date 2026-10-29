@@ -9,14 +9,17 @@
     />
 
     <title>My Space</title>
-    <link rel="stylesheet" href="./stylenoai.css?v=79" />
+    <link rel="stylesheet" href="./stylenoai.css?v=78" />
   </head>
 
   <body>
     <div id="loading-screen">
-    <div class="loader-ring"></div>
-    <p class="loader-text">Travelling to Space</p>
+    <div class="loader-circle-wrap">
+        <div class="loader-ring"></div>
+        <p id="loading-percentage">0%</p>
     </div>
+    <p class="loader-text">Travelling to Space</p>
+</div>
     <div class="cursor-circle"></div>
     <canvas id="starfield" aria-hidden="true"></canvas>
 

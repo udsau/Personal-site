@@ -503,13 +503,54 @@ document.addEventListener('DOMContentLoaded', () => {
         }
     });
 });
-window.addEventListener('load', () => {
+document.addEventListener('DOMContentLoaded', () => {
     const loadingScreen = document.getElementById('loading-screen');
-    
-    // Add a tiny 300ms delay just to make the transition feel smooth
-    setTimeout(() => {
-        if (loadingScreen) {
-            loadingScreen.classList.add('hidden');
+    const percentageText = document.getElementById('loading-percentage');
+    let progress = 0;
+
+    // Simulate loading progress while the heavy assets download
+    const loadingInterval = setInterval(() => {
+        // Count up to 90%, then wait for the browser to finish downloading the background
+        if (progress < 90) {
+            // Adds a random jump between 1% and 5% every tenth of a second for a realistic feel
+            progress += Math.floor(Math.random() * 5) + 1;
+            if (progress > 90) progress = 90; 
+            
+            if (percentageText) {
+                percentageText.innerText = `${progress}%`;
+            }
         }
-    }, 300);
+    }, 100);
+
+    // This triggers the exact millisecond the background image and canvas are 100% finished
+    window.addEventListener('load', () => {
+        clearInterval(loadingInterval);
+        
+        // Fast-forward to 100% 
+        let finalProgress = progress;
+        const finishInterval = setInterval(() => {
+            finalProgress += 2;
+            
+            if (finalProgress >= 100) {
+                finalProgress = 100;
+                clearInterval(finishInterval);
+                
+                if (percentageText) {
+                    percentageText.innerText = '100%';
+                }
+                
+                // Wait a tiny fraction of a second at 100% so the user registers it, then hide
+                setTimeout(() => {
+                    if (loadingScreen) {
+                        loadingScreen.classList.add('hidden');
+                    }
+                }, 400); 
+                
+            } else {
+                if (percentageText) {
+                    percentageText.innerText = `${finalProgress}%`;
+                }
+            }
+        }, 20); // Extremely fast interval to jump from 90 to 100
+    });
 });
