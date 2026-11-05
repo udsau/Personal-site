@@ -18,6 +18,10 @@ A personal website to showcase my projects, interests, and the random things I'm
 - JavaScript
 - `localStorage`
 
+<p align="center">
+  <img src="ss.png" width="800" alt="Personal website preview">
+</p>
+
 ## Note 
 
 ### Design & Features
