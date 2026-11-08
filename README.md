@@ -24,6 +24,6 @@ A personal website to showcase my projects, interests, and the random things I'm
 
 ## Note 
 
-I've been wanting to build a personal website for quite a while, and finally got around to it when I came across Hackclub Stardance. I decided to build it around my fascination with space. I had a lot of fun putting it together and experimenting with css animations, canvas, and different visual effects. Honestly, I don't think this project will ever really be "finished" as I'll probably keep adding to it as I build more things and explore new interests. :] (and big thank you to the Stardance team for the domain grant that made this possible!)
+I've been wanting to build a personal website for quite a while, and finally got around to it when I came across Hackclub Stardance. I decided to build it around my fascination with space. I had a lot of fun putting it together and experimenting with css animations, canvas, and different visual effects. Honestly, I don't think this project will ever really be <em>finished</em> as I'll probably keep adding to it as I build more things and explore new interests. (big thank you to the stardance team for the domain grant that made this possible!)
 
 <sub><em>AI assistance was used to explore the background star effects, the connection and formation of constellations, to write the code connecting Discord to JavaScript for receiving messages without a complicated backend, and to understand CSS media queries.</em></sub>
