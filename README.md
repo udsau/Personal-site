@@ -9,7 +9,7 @@ A personal website to showcase my projects, interests, and the random things I'm
 - **About Me:** A little introduction to who I am and what drives my curiosity.
 - **Interests:** A collection of things I'm into, from coding and robotics to art and the cosmos.
 - **Projects:** Things I've built, experimented with, or learned along the way.
-- **Photography:** Photos I've taken myself.
+- **Photography:** Photos I've taken.
 
 ## Tech Stack
 
@@ -24,12 +24,6 @@ A personal website to showcase my projects, interests, and the random things I'm
 
 ## Note 
 
-### Design & Features
+I've been wanting to build a personal website for quite a while, and finally got around to it when I came across Hackclub Stardance. I decided to build it around my fascination with space. I had a lot of fun putting it together and experimenting with css animations, canvas, and different visual effects. Honestly, I don't think this project will ever really be "finished" as I'll probably keep adding to it as I build more things and explore new interests. :] (and big thank you to the Stardance team for the domain grant that made this possible!)
 
-The original website had a paper inspired design, but I eventually redesigned it around my fascination with space. The new version features an aurora background, an animated starfield, shooting stars, and subtle hover effects to bring the space theme to life. I also worked on responsive navigation using CSS media queries to make the website easier to navigate on mobile devices.
-
-### What I Learned
-
-While working on this website, I explored CSS animations, canvas based star animations, responsive layouts etc. Redesigning the site also gave me an opportunity to experiment with visual effects while keeping the content usable across different screen sizes. 
-
-<sub><em>AI assistance was used to explore the background star effects and the connection and formation of constellations, the code to connect Discord to JavaScript for receiving messages without a complicated backend, and CSS media queries. I implemented the resulting code into the website.</em></sub>
+<sub><em>AI assistance was used to explore the background star effects, the connection and formation of constellations, to write the code connecting Discord to JavaScript for receiving messages without a complicated backend, and to understand CSS media queries.</em></sub>

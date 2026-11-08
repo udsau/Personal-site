@@ -393,7 +393,7 @@ footer {
   margin-top: 50px;
   border: none;
   box-shadow: none;
-  color: var(--muted);
+  color: var(--heading);
 }
 
 /* Makes the photos look clickable */
@@ -473,17 +473,7 @@ footer {
   color: #8ebbff;
 }
 
-body,
-button,
-a,
-.photo-frame img,
-.close-modal {
-  cursor:
-    url("star.jpeg") 0 0,
-    auto !important;
-}
-
-/* The trailing circle */
+/* The trailing circle around cursor */
 .cursor-circle {
   position: fixed;
   top: 0;
