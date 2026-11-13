@@ -11,100 +11,16 @@
   --card-bg: #171720;
   --card-border: #34313f;
 }
-#loading-screen {
-  display: flex;
-    flex-direction: column;
-    justify-content: center; /* Centers everything vertically */
-    align-items: center;
-    position: fixed;
-    top: 0;
-    left: 0;
-    width: 100vw;
-    height: 100vh;
-    background-color: #0b0d14; /* Matches your dark space theme */
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    align-items: center;
-    z-index: 9999;
-    transition: opacity 0.6s ease-out, visibility 0.6s ease-out;
-}
-/* New wrapper to stack the ring and text on top of each other */
-.loader-circle-wrap {
-    position: relative;
-    width: 90px;
-    height: 90px;
-    margin-bottom: 20px;
-}
 
-/* The spinning ring */
-.loader-ring {
-    position: absolute;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    box-sizing: border-box; /* Ensures the borders don't warp the size */
-    border: 3px solid rgba(142, 187, 255, 0.1); 
-    border-top-color: #8ebbff; 
-    border-radius: 50%;
-    animation: spin 1s cubic-bezier(0.55, 0.085, 0.68, 0.53) infinite;
-    box-shadow: 0 0 15px rgba(142, 187, 255, 0.4);
-}
-
-/* The text perfectly locked in the middle */
-#loading-percentage {
-    position: absolute;
-    top: 50%;
-    left: 50%;
-    transform: translate(-50%, -50%); /* Pins it to the exact mathematical center */
-    margin: 0;
-    padding: 0;
-    z-index: 2; 
-    
-    color: #fff;
-    font-family: monospace;
-    font-size: 1.1rem; 
-    font-weight: bold;
-    letter-spacing: 1px;
-    text-shadow: 0 0 12px rgba(142, 187, 255, 0.8); 
-}
-
-.loader-text {
-    color: #8ebbff;
-    font-family: monospace;
-    font-size: 0.9rem;
-    letter-spacing: 2px;
-    animation: pulse 1.5s infinite alternate;
-}
-
-/* The class JavaScript will add to fade it out */
-#loading-screen.hidden {
-    opacity: 0;
-    visibility: hidden;
-}
-
-/* Animations */
-@keyframes spin {
-    0% { transform: rotate(0deg); }
-    100% { transform: rotate(360deg); }
-}
-
-@keyframes pulse {
-    0% { opacity: 0.5; }
-    100% { opacity: 1; }
-}
-/* Base */
+/* =========================================
+   BASE STYLES & TYPOGRAPHY
+   ========================================= */
 html {
   scroll-behavior: smooth;
   background-color: var(--bg-space);
 }
 
-body,
-button,
-input,
-textarea,
-select {
+body, button, input, textarea, select {
   font-family: "Inter", sans-serif;
 }
 
@@ -116,35 +32,96 @@ body {
   line-height: 1.6;
 }
 
-button,
-input,
-textarea,
-select {
-  font-size: inherit;
+h1, h2, h3 { color: var(--heading); }
+p, li { color: var(--text-main); }
+a { color: var(--link); transition: color 0.2s ease; }
+a:hover, a:focus-visible { color: var(--accent); }
+
+/* Apply global glow effect to main headings */
+#hero h1, h1, #about h2, #interests h2, #projects h2, #photography h2, #contact h2 {
+  color: #8ebbff !important;
+  text-shadow: 0 0 10px rgba(142, 187, 255, 0.28) !important;
+}
+h1 { margin: 0; }
+
+/* Keep section contents from hugging the edges */
+section > .eyebrow, section > h2, section > p:not(.project-type), section > ul, section > ol {
+  margin-left: 30px;
+  margin-right: 30px;
 }
 
-h1,
-h2,
-h3 {
-  color: var(--heading);
+/* =========================================
+   LOADING SCREEN (Rings & Logic)
+   ========================================= */
+#loading-screen {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  background-color: #0b0d14; 
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  z-index: 9999;
+  transition: opacity 0.6s ease-out, visibility 0.6s ease-out;
 }
 
-p,
-li {
-  color: var(--text-main);
+/* Wrapper to stack the ring and the percentage text perfectly */
+.loader-circle-wrap {
+  position: relative;
+  width: 90px;
+  height: 90px;
+  margin-bottom: 20px;
 }
 
-a {
-  color: var(--link);
-  transition: color 0.2s ease;
+.loader-ring {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  box-sizing: border-box;
+  border: 3px solid rgba(142, 187, 255, 0.1); 
+  border-top-color: #8ebbff; 
+  border-radius: 50%;
+  animation: spin 1s cubic-bezier(0.55, 0.085, 0.68, 0.53) infinite;
+  box-shadow: 0 0 15px rgba(142, 187, 255, 0.4);
 }
 
-a:hover,
-a:focus-visible {
-  color: var(--accent);
+#loading-percentage {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%); 
+  margin: 0;
+  padding: 0;
+  z-index: 2; 
+  color: #fff;
+  font-family: monospace;
+  font-size: 1.1rem; 
+  font-weight: bold;
+  letter-spacing: 1px;
+  text-shadow: 0 0 12px rgba(142, 187, 255, 0.8); 
 }
 
-/* Animated star background */
+.loader-text {
+  color: #8ebbff;
+  font-family: monospace;
+  font-size: 0.9rem;
+  letter-spacing: 2px;
+  animation: pulse 1.5s infinite alternate;
+}
+
+#loading-screen.hidden {
+  opacity: 0;
+  visibility: hidden;
+}
+
+/* =========================================
+   HERO SECTION & STARFIELD
+   ========================================= */
 #starfield {
   position: fixed;
   top: 0;
@@ -155,429 +132,13 @@ a:focus-visible {
   pointer-events: none;
 }
 
-/* Page spacing to make it look cleaner */
-section > .eyebrow,
-section > h2,
-section > p:not(.project-type),
-section > ul,
-section > ol {
-  margin-left: 30px;
-  margin-right: 30px;
-}
-
-/* Heading glow :D */
-#hero h1,
-#about h2,
-#interests h2,
-#projects h2,
-#photography h2,
-#contact h2 {
-  color: #8ebbff !important;
-  text-shadow: 0 0 8px rgba(156, 195, 255, 0.25) !important;
-}
-
-h1 {
-  margin: 0;
-  color: #8ebbff;
-  text-shadow: 0 0 10px rgba(142, 187, 255, 0.28);
-}
-
-/* Navigation panel */
-nav {
-  margin-left: 0;
-  margin-right: 0;
-}
-
-nav a,
-nav a:visited {
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-  padding: 9px 16px;
-  margin: 4px;
-
-  color: #8ebbff;
-  background: rgba(20, 20, 29, 0.65);
-  border: 2px solid rgba(142, 187, 255, 0.25);
-  border-radius: 8px;
-  text-decoration: none;
-  text-shadow: 0 0 8px rgba(142, 187, 255, 0.2);
-
-  transition:
-    background-color 0.2s ease,
-    border-color 0.2s ease,
-    box-shadow 0.2s ease,
-    transform 0.2s ease;
-}
-
-nav a:hover,
-nav a:focus-visible {
-  background: rgba(142, 187, 255, 0.15);
-  border-color: #c4b5fd;
-  color: #c4b5fd !important;
-  text-shadow: 0 0 10px rgba(142, 187, 255, 0.45);
-}
-
-/* Projects grid */
-.projects-grid {
-  display: grid;
-  grid-template-columns: repeat(2, minmax(0, 1fr));
-  gap: 20px;
-  align-items: stretch;
-  margin-left: 22px;
-  margin-right: 22px;
-}
-
-/* Project cards */
-.project-card {
+/* Ensures content sits above the stars */
+section, footer, #hero h1, #hero nav, .scroll-text {
   position: relative;
-  display: flex;
-  flex-direction: column;
-  gap: 12px;
-  min-width: 0;
-  margin: 12px;
-  padding: 24px;
-
-  background: linear-gradient(
-    145deg,
-    rgba(20, 31, 53, 0.96),
-    rgba(10, 16, 31, 0.96)
-  );
-
-  border: 1px solid #293b59;
-  box-shadow: 0 6px 20px rgba(0, 0, 0, 0.16);
-
-  transition:
-    transform 0.25s ease,
-    border-color 0.25s ease,
-    box-shadow 0.25s ease;
+  z-index: 3;
 }
 
-.project-card:hover {
-  transform: translateY(-4px);
-  border-color: #668fc8;
-  box-shadow: 0 12px 28px rgba(51, 105, 180, 0.14);
-}
-
-.project-card h3 {
-  margin: 0;
-  color: var(--heading);
-  font-size: 1.2rem;
-  line-height: 1.4;
-}
-
-.project-card p:not(.status) {
-  margin: 0;
-  color: var(--text-main);
-  line-height: 1.7;
-}
-
-/* Project type labels */
-.project-card .status.project-type {
-  display: inline-flex;
-  align-items: center;
-  align-self: flex-start;
-  gap: 8px;
-  margin: 0;
-
-  font-family: "Courier New", monospace;
-  font-size: 0.8rem;
-  font-weight: 600;
-  letter-spacing: 0.1em;
-  text-transform: uppercase;
-  color: var(--accent);
-}
-
-.project-card .status.unsuccessful.project-type {
-  color: #f4a6a6;
-}
-
-/* Project status stars */
-.project-success .status-dot::before {
-  content: "★";
-  color: #a7f3d0;
-  text-shadow:
-    0 0 4px rgba(167, 243, 208, 0.45),
-    0 0 9px rgba(167, 243, 208, 0.2);
-  font-size: 1.2rem;
-}
-
-.project-unsuccessful .status-dot::before {
-  content: "★";
-  color: #f4a6a6;
-  text-shadow:
-    0 0 4px rgba(244, 166, 166, 0.4),
-    0 0 9px rgba(244, 166, 166, 0.18);
-  font-size: 1.2rem;
-}
-
-/* Photography section */
-#photography {
-  padding-left: 32px;
-  padding-right: 32px;
-  box-sizing: border-box;
-}
-
-#photography > .eyebrow,
-#photography > h2,
-#photography > p {
-  margin-left: 0;
-  margin-right: 0;
-}
-
-/* Photography collage */
-.photography-grid {
-  columns: 4;
-  column-gap: 20px;
-}
-
-.photo-frame {
-  break-inside: avoid;
-  margin: 0 0 20px;
-  padding: 8px;
-
-  background-color: var(--card-bg);
-  border: 1px solid var(--card-border);
-  box-shadow: 0 4px 14px rgba(0, 0, 0, 0.2);
-
-  transition:
-    transform 0.25s ease,
-    box-shadow 0.25s ease,
-    border-color 0.25s ease;
-}
-
-.photo-frame:hover {
-  transform: translateY(-5px);
-  border-color: var(--heading);
-  box-shadow: 0 10px 24px rgba(72, 145, 255, 0.18);
-}
-
-.photo-frame img {
-  display: block;
-  width: 100%;
-  height: auto;
-}
-
-.photo-frame figcaption {
-  margin-top: 12px;
-  color: var(--heading);
-  font-size: 13px;
-  font-weight: 600;
-  font-style: italic;
-  letter-spacing: 0.5px;
-  text-align: center;
-}
-
-/* Photography caption glow */
-figcaption {
-  color: #8ebbff;
-  text-shadow: 0 0 6px rgba(142, 187, 255, 0.22);
-}
-
-/* Contact links */
-#contact a {
-  color: var(--link);
-  text-decoration: none;
-}
-
-#contact a:hover,
-#contact a:focus-visible {
-  color: var(--accent);
-}
-
-/* Footer */
-footer {
-  background: transparent;
-  text-align: left;
-  padding: 25px;
-  margin-top: 50px;
-  border: none;
-  box-shadow: none;
-  color: var(--heading);
-}
-
-/* Makes the photos look clickable */
-.photo-frame img {
-  cursor: pointer;
-}
-
-/* The Modal Background */
-.modal {
-  display: none;
-  position: fixed;
-  z-index: 1000;
-  left: 0;
-  top: 0;
-  width: 100%;
-  height: 100%;
-  background-color: rgba(9, 10, 16, 0.7);
-  backdrop-filter: blur(10px);
-  -webkit-backdrop-filter: blur(10px);
-  justify-content: center;
-  align-items: center;
-}
-
-.modal.active {
-  display: flex;
-}
-
-.modal-frame {
-  display: flex;
-  flex-direction: column;
-  padding: 8px;
-  background-color: var(--card-bg);
-  border: 1px solid var(--card-border);
-  animation: popIn 0.3s ease;
-  border: 1px solid var(--heading); /* Changes the border to your theme's light blue */
-  box-shadow: 0 0 25px rgba(142, 187, 255, 0.35);
-  max-width: 90vw;
-  max-height: 90vh;
-  width: fit-content; /* prevents stretching */
-}
-
-/* The Zoomed Image */
-.modal-frame img {
-  max-width: 100%;
-  max-height: 75vh; /* Leaves room for the caption below it */
-  width: auto; /* PREVENTS STRETCHING/BREAKAGE */
-  height: auto;
-  display: block;
-}
-
-/* The Caption Text inside the Modal */
-#modal-caption {
-  margin-top: 12px;
-  color: var(--heading);
-  font-size: 13px;
-  font-weight: 600;
-  font-style: italic;
-  letter-spacing: 0.5px;
-  text-align: center;
-  text-shadow: 0 0 6px rgba(142, 187, 255, 0.22); /* Same glow as normal captions */
-}
-
-/* The Close Button (X) */
-.close-modal {
-  position: absolute;
-  top: 20px;
-  right: 35px;
-  color: var(--muted);
-  font-size: 30px;
-  font-weight: bold;
-  cursor: pointer;
-  transition: color 0.2s ease;
-  z-index: 1001; /* Keeps the X clickable above everything */
-}
-
-.close-modal:hover {
-  color: #8ebbff;
-}
-
-/* The trailing circle around cursor */
-.cursor-circle {
-  position: fixed;
-  top: 0;
-  left: 0;
-  width: 26px;
-  height: 26px;
-  border: 1.5px solid rgba(142, 187, 255, 0.6);
-  border-radius: 50%;
-  pointer-events: none;
-  z-index: 9998;
-  transform: translate(-50%, -50%);
-  transition:
-    width 0.2s ease,
-    height 0.2s ease,
-    background-color 0.2s ease;
-}
-
-/* The expanded state when hovering over buttons or stars */
-.cursor-circle.hovered {
-  width: 45px;
-  height: 45px;
-  background-color: rgba(142, 187, 255, 0.1);
-  border-color: #8ebbff;
-  box-shadow: 0 0 15px rgba(142, 187, 255, 0.4);
-}
-
-@keyframes popIn {
-  from {
-    transform: scale(0.95);
-    opacity: 0;
-  }
-  to {
-    transform: scale(1);
-    opacity: 1;
-  }
-}
-
-/* Responsive layouts */
-@media (max-width: 700px) {
-  .photography-grid {
-    columns: 2;
-    column-gap: 12px;
-  }
-
-  .photo-frame {
-    margin-bottom: 12px;
-    padding: 5px;
-  }
-}
-
-@media (max-width: 650px) {
-  .projects-grid {
-    grid-template-columns: 1fr;
-    gap: 14px;
-  }
-
-  .project-card {
-    padding: 20px;
-  }
-}
-
-@media (max-width: 420px) {
-  .photography-grid {
-    columns: 2;
-  }
-}
-
-@media (prefers-reduced-motion: reduce) {
-  html {
-    scroll-behavior: auto;
-  }
-
-  .project-card,
-  .photo-frame {
-    transition: none;
-  }
-
-  .project-card:hover,
-  .photo-frame:hover {
-    transform: none;
-  }
-}
-@media (pointer: coarse) {
-  .cursor-circle {
-    display: none;
-  }
-  body,
-  button,
-  a,
-  .photo-frame img,
-  .close-modal {
-    cursor: auto !important;
-  }
-}
-
-.motto {
-  color: #8ebbff;
-  font-weight: 700;
-  text-shadow: 0 0 8px rgba(142, 187, 255, 0.4);
-}
-
-/* 1. Base Desktop & Layout Rules (Must come BEFORE Mobile Overrides) */
-#hero,
-.hero {
+#hero, .hero {
   min-height: 100vh;
   min-height: 100dvh;
   width: 100%;
@@ -591,297 +152,51 @@ footer {
   position: relative;
   z-index: 1;
 }
-nav {
-  width: 100%;
-  display: flex;
-  justify-content: center;
-  flex-wrap: wrap;
-  gap: 16px;
-  margin-top: 24px;
-  padding: 0;
-}
-#hero h1,
-#hero nav,
-.scroll-text {
-  position: relative;
-  z-index: 3; /* Keeps your text safely on top of the stars */
-}
-/* Pulls the rest of the website above the starfield */
-section,
-footer {
-  position: relative;
-  z-index: 3;
-}
 
-/* adding typewriter animation to h1 (AI assisted)*/
-.typewriter {
-  overflow: hidden;
-  white-space: nowrap;
-
-  /* Defaults to transparent so it disappears when the animation is done */
-  border-right: 3px solid transparent;
-
-  width: 11.5ch;
-
-  animation:
-    typing 2s steps(17, end) forwards,
-    blink-caret 0.5s step-end 20;
-}
-
-@keyframes typing {
-  from {
-    width: 0;
-  }
-  to {
-    width: 11.5ch;
-  } /*.typewriter class */
-}
-
-@keyframes blink-caret {
-  from,
-  to {
-    border-right-color: transparent;
-  }
-  50% {
-    border-right-color: #8ab4f8;
-  }
-}
-
-/* 2. Mobile Overrides */
-@media (max-width: 768px) {
-  h1 {
-    font-size: 2rem;
-  }
-  h2 {
-    font-size: 1.5rem;
-  }
-  p {
-    font-size: 1rem;
-  }
-
-  nav {
-    gap: 0px; /*to save horizontal space */
-    flex-wrap: nowrap; /* Forces the buttons to stay on a single line */
-  }
-
-  nav a {
-    font-size: 0.85rem;
-    padding: 6px 10px; /* Reduced inner padding */
-    margin: 2px;
-  }
-  .project-success .status-dot::before {
-    content: "★";
-    color: #a7f3d0;
-    text-shadow:
-      0 0 4px rgba(167, 243, 208, 0.45),
-      0 0 9px rgba(167, 243, 208, 0.2);
-    font-size: 0.9rem;
-  }
-
-  .project-unsuccessful .status-dot::before {
-    content: "★";
-    color: #f4a6a6;
-    text-shadow:
-      0 0 4px rgba(244, 166, 166, 0.4),
-      0 0 9px rgba(244, 166, 166, 0.18);
-    font-size: 0.9rem;
-  }
-}
-.scroll-text {
-  margin-top: 40px; /* Change this number to bring it closer or further from the buttons */
-  font-size: 0.85rem;
-  color: #8ebbff;
-  text-shadow: 0 0 10px rgba(142, 187, 255, 0.28);
-  letter-spacing: 0.5px;
-}
-
-@keyframes float-bounce {
-  0%,
-  100% {
-    transform: translateY(0);
-  }
-  50% {
-    transform: translateY(-8px);
-  }
-}
-#hero::before,
-.hero::before {
+#hero::before, .hero::before {
   content: "";
   position: absolute;
   top: 0;
   left: 0;
   width: 100%;
   height: 100%;
-
   background-image: url("nightsky.webp");
   background-size: cover;
   background-position: center;
   background-repeat: no-repeat;
-
   z-index: -1;
   opacity: 0;
   transition: opacity 0.8s ease;
-
   -webkit-mask-image: linear-gradient(to bottom, black 50%, transparent 100%);
   mask-image: linear-gradient(to bottom, black 50%, transparent 100%);
 }
 
-#hero.background-loaded::before,
-.hero.background-loaded::before {
+#hero.background-loaded::before, .hero.background-loaded::before {
   opacity: 0.6;
 }
 
-@media (prefers-reduced-motion: reduce) {
-  #hero::before,
-  .hero::before {
-    transition: none;
-  }
-}
-/* Layout for the Contact Section */
-#contact {
-  display: flex;
-  flex-direction: column;
-  margin-left: 0;
-  margin-right: 0;
-  margin-bottom: 60px;
-}
-
-/* 2. Apply the exact same 30px margin to the links and the chatbox so they align with your h2 tags */
-.links-inline {
-  margin-left: 30px;
-  margin-right: 30px;
-  margin-bottom: 40px;
-  font-size: 1.1rem;
-  color: var(--muted);
-}
-
-.links-inline a:hover {
-  color: #c4b5fd;
-  text-shadow: 0 0 10px rgba(142, 187, 255, 0.45);
-}
-
-/* --- THE DARK CHATBOX --- */
-.message-box-dark {
-  margin-left: 30px;
-  margin-right: 30px;
-  background-color: var(--card-bg); /* Uses your dark card color */
-  border: 1px solid var(--card-border);
-  border-radius: 12px;
-  padding: 16px;
-  max-width: 500px; /* Keeps it from stretching too far */
-  box-shadow: 0 4px 14px rgba(0, 0, 0, 0.2);
-  transition:
-    border-color 0.3s ease,
-    box-shadow 0.3s ease;
-}
-
-/* Adds a blue glow to the whole box when typing */
-.message-box-dark:focus-within {
-  border-color: #8ebbff;
-  box-shadow: 0 0 15px rgba(142, 187, 255, 0.15);
-}
-
-.contact-form-dark {
-  display: flex;
-  flex-direction: column;
-  gap: 12px;
-}
-
-/* Strips default white backgrounds from inputs */
-.contact-form-dark textarea,
-.contact-form-dark input {
-  background: transparent;
-  border: none;
-  color: var(--text-main);
-  font-family: inherit;
-  font-size: 0.95rem;
-  outline: none;
-}
-
-.contact-form-dark textarea {
-  resize: vertical;
-  min-height: 60px;
-}
-
-.contact-form-dark textarea::placeholder,
-.contact-form-dark input::placeholder {
-  color: var(--muted);
-}
-
-/* Puts the Name and Button side-by-side with a subtle line above them */
-.form-bottom-row {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  border-top: 1px solid var(--card-border);
-  padding-top: 12px;
-  gap: 10px;
-}
-
-.contact-form-dark input {
-  flex: 1; /* Name takes up available space */
-}
-
-/* The sleek, small Send button */
-.contact-form-dark button {
-  background: rgba(142, 187, 255, 0.1);
+.motto {
   color: #8ebbff;
-  border: 1px solid rgba(142, 187, 255, 0.3);
-  padding: 6px 16px;
-  border-radius: 6px;
-  font-weight: 600;
+  font-weight: 700;
+  text-shadow: 0 0 8px rgba(142, 187, 255, 0.4);
+}
+
+.scroll-text {
+  margin-top: 40px; 
   font-size: 0.85rem;
-  transition: all 0.2s ease;
+  color: #8ebbff;
+  text-shadow: 0 0 10px rgba(142, 187, 255, 0.28);
+  letter-spacing: 0.5px;
 }
 
-.contact-form-dark button:hover {
-  background: rgba(196, 181, 253, 0.2);
-  color: #c4b5fd;
-  border-color: #c4b5fd;
-  transform: translateY(-2px);
-}
-/* --- MOBILE LAYOUT FIXES FOR CONTACT SECTION --- */
-@media (max-width: 750px) {
-  /* Resets left/right margins to fit phone screens snugly */
-  .links-inline {
-    margin-left: 20px;
-    margin-right: 20px;
-  }
-
-  .message-box-dark {
-    margin-left: 20px;
-    margin-right: 20px;
-    max-width: 100%;
-    padding: 12px;
-  }
-
-  /* Stacks the name input and send button vertically on mobile so nothing overflows */
-  .form-bottom-row {
-    flex-direction: column;
-    align-items: stretch;
-    gap: 10px;
-    border-top: 1px solid var(--card-border);
-    padding-top: 10px;
-  }
-
-  .contact-form-dark input {
-    font-size: 0.9rem;
-    padding: 10px;
-    width: 100%;
-    box-sizing: border-box;
-  }
-
-  .contact-form-dark button {
-    width: 100%;
-    padding: 10px;
-    font-size: 0.9rem;
-    text-align: center;
-  }
-}
+/* Constellation top-right controls */
 .constellation-controls {
-  margin-top: 20px;
+  position: absolute;
+  top: 30px;
+  right: 30px;
   display: flex;
   gap: 12px;
+  z-index: 50;
 }
 
 .terminal-btn {
@@ -903,136 +218,467 @@ footer {
   color: #c4b5fd;
   box-shadow: 0 0 10px rgba(142, 187, 255, 0.3);
 }
-/* Ensure the hero section can contain absolutely positioned elements */
-.hero {
-  position: relative;
-}
 
-/* Moves the buttons to the top right corner */
-.constellation-controls {
-  position: absolute;
-  top: 30px;
-  right: 30px;
+/* =========================================
+   NAVIGATION
+   ========================================= */
+nav {
+  width: 100%;
   display: flex;
+  justify-content: center;
+  flex-wrap: wrap;
+  gap: 16px;
+  margin-top: 24px;
+  padding: 0;
+}
+
+nav a, nav a:visited {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  padding: 9px 16px;
+  margin: 4px;
+  color: #8ebbff;
+  background: rgba(20, 20, 29, 0.65);
+  border: 2px solid rgba(142, 187, 255, 0.25);
+  border-radius: 8px;
+  text-decoration: none;
+  text-shadow: 0 0 8px rgba(142, 187, 255, 0.2);
+  transition: background-color 0.2s ease, border-color 0.2s ease, box-shadow 0.2s ease, transform 0.2s ease;
+}
+
+nav a:hover, nav a:focus-visible {
+  background: rgba(142, 187, 255, 0.15);
+  border-color: #c4b5fd;
+  color: #c4b5fd !important;
+  text-shadow: 0 0 10px rgba(142, 187, 255, 0.45);
+}
+
+/* =========================================
+   PROJECTS SECTION
+   ========================================= */
+.projects-grid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 20px;
+  align-items: stretch;
+  margin-left: 22px;
+  margin-right: 22px;
+}
+
+.project-card {
+  position: relative;
+  display: flex;
+  flex-direction: column;
   gap: 12px;
-  z-index: 50;
+  min-width: 0;
+  margin: 12px;
+  padding: 24px;
+  background: linear-gradient(145deg, rgba(20, 31, 53, 0.96), rgba(10, 16, 31, 0.96));
+  border: 1px solid #293b59;
+  box-shadow: 0 6px 20px rgba(0, 0, 0, 0.16);
+  transition: transform 0.25s ease, border-color 0.25s ease, box-shadow 0.25s ease;
 }
 
-@media (max-width: 750px) {
-  .constellation-controls {
-    top: 20px;
-    right: 20px;
-    flex-direction: column; /* Stacks them nicely on phones */
-    gap: 8px;
-  }
+.project-card:hover {
+  transform: translateY(-4px);
+  border-color: #668fc8;
+  box-shadow: 0 12px 28px rgba(51, 105, 180, 0.14);
 }
-@media (max-width: 600px) {
-  .constellation-controls {
-    top: 20px;
-    right: 20px;
-    flex-direction: column;
-    align-items: flex-end; /* Forces buttons to hug the right edge instead of stretching */
-    gap: 8px;
-  }
 
-  .terminal-btn {
-    padding: 6px 12px;
-    font-size: 0.75rem;
-    border-radius: 6px;
-    background: rgba(
-      20,
-      20,
-      29,
-      0.4
-    ); /* Makes them slightly more transparent on phones */
-    backdrop-filter: blur(8px); /* Increases the frosted glass effect */
-    border: 1px solid rgba(142, 187, 255, 0.2);
-    letter-spacing: 0.5px;
-  }
-}
-/* Disable custom cursor on mobile devices to prevent scroll lag */
-@media (max-width: 768px) {
-  .cursor-dot,
-  .cursor-circle {
-    display: none !important;
-  }
+.project-card h3 { margin: 0; font-size: 1.2rem; line-height: 1.4; }
+.project-card p:not(.status) { margin: 0; line-height: 1.7; }
 
-  /* Re-enable normal scrolling behavior */
-  * {
-    cursor: auto !important;
-  }
+.project-card .status.project-type {
+  display: inline-flex;
+  align-items: center;
+  align-self: flex-start;
+  gap: 8px;
+  margin: 0;
+  font-family: "Courier New", monospace;
+  font-size: 0.8rem;
+  font-weight: 600;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--accent);
 }
-/* NPC Guide Base Setup */
+.project-card .status.unsuccessful.project-type { color: #f4a6a6; }
+
+.project-success .status-dot::before {
+  content: "★";
+  color: #a7f3d0;
+  text-shadow: 0 0 4px rgba(167, 243, 208, 0.45), 0 0 9px rgba(167, 243, 208, 0.2);
+  font-size: 1.2rem;
+}
+.project-unsuccessful .status-dot::before {
+  content: "★";
+  color: #f4a6a6;
+  text-shadow: 0 0 4px rgba(244, 166, 166, 0.4), 0 0 9px rgba(244, 166, 166, 0.18);
+  font-size: 1.2rem;
+}
+
+/* =========================================
+   PHOTOGRAPHY SECTION & MODAL
+   ========================================= */
+#photography {
+  padding-left: 32px;
+  padding-right: 32px;
+  box-sizing: border-box;
+}
+
+#photography > .eyebrow, #photography > h2, #photography > p {
+  margin-left: 0;
+  margin-right: 0;
+}
+
+.photography-grid { columns: 4; column-gap: 20px; }
+
+.photo-frame {
+  break-inside: avoid;
+  margin: 0 0 20px;
+  padding: 8px;
+  background-color: var(--card-bg);
+  border: 1px solid var(--card-border);
+  box-shadow: 0 4px 14px rgba(0, 0, 0, 0.2);
+  transition: transform 0.25s ease, box-shadow 0.25s ease, border-color 0.25s ease;
+}
+
+.photo-frame:hover {
+  transform: translateY(-5px);
+  border-color: var(--heading);
+  box-shadow: 0 10px 24px rgba(72, 145, 255, 0.18);
+}
+
+.photo-frame img {
+  display: block;
+  width: 100%;
+  height: auto;
+  cursor: pointer;
+}
+
+figcaption, .photo-frame figcaption, #modal-caption {
+  margin-top: 12px;
+  color: #8ebbff;
+  font-size: 13px;
+  font-weight: 600;
+  font-style: italic;
+  letter-spacing: 0.5px;
+  text-align: center;
+  text-shadow: 0 0 6px rgba(142, 187, 255, 0.22);
+}
+
+/* Image Zoom Modal */
+.modal {
+  display: none;
+  position: fixed;
+  z-index: 1000;
+  left: 0;
+  top: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(9, 10, 16, 0.7);
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
+  justify-content: center;
+  align-items: center;
+}
+.modal.active { display: flex; }
+
+.modal-frame {
+  display: flex;
+  flex-direction: column;
+  padding: 8px;
+  background-color: var(--card-bg);
+  border: 1px solid var(--heading); 
+  box-shadow: 0 0 25px rgba(142, 187, 255, 0.35);
+  animation: popIn 0.3s ease;
+  max-width: 90vw;
+  max-height: 90vh;
+  width: fit-content; 
+}
+.modal-frame img {
+  max-width: 100%;
+  max-height: 75vh; 
+  width: auto; 
+  height: auto;
+  display: block;
+}
+
+.close-modal {
+  position: absolute;
+  top: 20px;
+  right: 35px;
+  color: var(--muted);
+  font-size: 30px;
+  font-weight: bold;
+  cursor: pointer;
+  transition: color 0.2s ease;
+  z-index: 1001; 
+}
+.close-modal:hover { color: #8ebbff; }
+
+/* =========================================
+   CONTACT SECTION & FORM (Flexbox Alignment)
+   ========================================= */
+/* Wrapper forces the heading, links, and box to align perfectly on the left */
+#contact {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  width: 90%; 
+  max-width: 500px;
+  margin-left: 30px;
+  margin-bottom: 60px;
+}
+
+#contact h2 { margin-left: 0; }
+#contact a { color: var(--link); text-decoration: none; }
+#contact a:hover, #contact a:focus-visible { color: var(--accent); }
+
+.links-inline {
+  margin-left: 0; /* Resetting margins for perfect flex alignment */
+  margin-bottom: 20px;
+  font-size: 1.1rem;
+  color: var(--muted);
+}
+.links-inline a:hover {
+  color: #c4b5fd;
+  text-shadow: 0 0 10px rgba(142, 187, 255, 0.45);
+}
+
+.message-box-dark {
+  width: 100%; /* Stretches to fill the flex container perfectly */
+  margin-left: 0;
+  box-sizing: border-box;
+  background-color: var(--card-bg); 
+  border: 1px solid var(--card-border);
+  border-radius: 12px;
+  padding: 16px;
+  box-shadow: 0 4px 14px rgba(0, 0, 0, 0.2);
+  transition: border-color 0.3s ease, box-shadow 0.3s ease;
+}
+.message-box-dark:focus-within {
+  border-color: #8ebbff;
+  box-shadow: 0 0 15px rgba(142, 187, 255, 0.15);
+}
+
+.contact-form-dark {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+.contact-form-dark textarea, .contact-form-dark input {
+  background: transparent;
+  border: none;
+  color: var(--text-main);
+  font-family: inherit;
+  font-size: 0.95rem;
+  outline: none;
+}
+.contact-form-dark textarea { resize: vertical; min-height: 60px; }
+.contact-form-dark textarea::placeholder, .contact-form-dark input::placeholder { color: var(--muted); }
+
+.form-bottom-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  border-top: 1px solid var(--card-border);
+  padding-top: 12px;
+  gap: 10px;
+}
+.contact-form-dark input { flex: 1; }
+
+.contact-form-dark button {
+  background: rgba(142, 187, 255, 0.1);
+  color: #8ebbff;
+  border: 1px solid rgba(142, 187, 255, 0.3);
+  padding: 6px 16px;
+  border-radius: 6px;
+  font-weight: 600;
+  font-size: 0.85rem;
+  transition: all 0.2s ease;
+}
+.contact-form-dark button:hover {
+  background: rgba(196, 181, 253, 0.2);
+  color: #c4b5fd;
+  border-color: #c4b5fd;
+  transform: translateY(-2px);
+}
+
+/* =========================================
+   NPC GUIDE / ASTRONAUT
+   ========================================= */
 .npc-container {
-    position: fixed;
-    bottom: 20px;
-    right: 20px;
-    display: flex;
-    align-items: flex-end; /* Aligns items to the bottom so we can push the bubble up */
-    gap: 0px;
-    z-index: 999;
-    
-    /* ANIMATION STARTING STATE: Invisible and pushed way down */
-    opacity: 0;
-    transform: translateY(150px); 
-    transition: opacity 1.5s ease-out, transform 1.5s ease-out;
-    pointer-events: none; 
+  position: fixed;
+  bottom: 20px;
+  right: 20px;
+  display: flex;
+  align-items: flex-end; 
+  gap: 0px;
+  z-index: 999;
+  
+  /* Starts invisible and pushed off-screen */
+  opacity: 0;
+  transform: translateY(150px); 
+  transition: opacity 1.5s ease-out, transform 1.5s ease-out;
+  pointer-events: none; 
 }
-
 .npc-container.show {
-    /* ANIMATION ENDING STATE: Fully visible in normal position */
-    opacity: 1;
-    transform: translateY(0);
+  opacity: 1;
+  transform: translateY(0);
 }
 
 .npc-speech-bubble {
-    position: relative;
-    z-index: 2;
-    background: linear-gradient(135deg, rgba(20, 25, 45, 0.95), rgba(10, 15, 30, 0.95));
-    backdrop-filter: blur(10px);
-    
-    /* The glowing border */
-    border: 2px solid rgba(142, 187, 255, 0.6);
-    box-shadow: 0 8px 25px rgba(0, 0, 0, 0.6), 0 0 15px rgba(142, 187, 255, 0.3);
-    
-    color: #fff;
-    border-radius: 24px; 
-    line-height: 1.5;
-    text-align: center;
-    max-width: 350px; 
-    padding: 4px 14px; 
-    font-size: 0.85rem; 
-    margin-bottom: 162px; 
-    margin-right: -60px; 
-    animation: float-bounce 2s infinite ease-in-out;
+  position: relative;
+  z-index: 2;
+  background: linear-gradient(135deg, rgba(20, 25, 45, 0.95), rgba(10, 15, 30, 0.95));
+  backdrop-filter: blur(10px);
+  border: 2px solid rgba(142, 187, 255, 0.6);
+  box-shadow: 0 8px 25px rgba(0, 0, 0, 0.6), 0 0 15px rgba(142, 187, 255, 0.3);
+  color: #fff;
+  border-radius: 24px; 
+  line-height: 1.5;
+  text-align: center;
+  max-width: 350px; 
+  padding: 4px 14px; 
+  font-size: 0.85rem; 
+  margin-bottom: 162px; 
+  margin-right: -60px; 
+  animation: float-bounce 2s infinite ease-in-out;
 }
-
 
 .npc-image {
-    width: 200px; 
-    height: auto;
-    filter: drop-shadow(0 0 8px rgba(142, 187, 255, 0.4)); 
-    animation: float-bounce 2s infinite ease-in-out;
+  width: 200px; 
+  height: auto;
+  filter: drop-shadow(0 0 8px rgba(142, 187, 255, 0.4)); 
+  animation: float-bounce 2s infinite ease-in-out;
 }
 
-/* Mobile Adjustment */
+/* =========================================
+   CURSOR LOGIC
+   ========================================= */
+.cursor-circle {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 26px;
+  height: 26px;
+  border: 1.5px solid rgba(142, 187, 255, 0.6);
+  border-radius: 50%;
+  pointer-events: none;
+  z-index: 9998;
+  transform: translate(-50%, -50%);
+  transition: width 0.2s ease, height 0.2s ease, background-color 0.2s ease;
+}
+.cursor-circle.hovered {
+  width: 45px;
+  height: 45px;
+  background-color: rgba(142, 187, 255, 0.1);
+  border-color: #8ebbff;
+  box-shadow: 0 0 15px rgba(142, 187, 255, 0.4);
+}
+
+footer {
+  background: transparent;
+  text-align: left;
+  padding: 25px;
+  margin-top: 50px;
+  border: none;
+  color: var(--heading);
+}
+
+/* =========================================
+   ANIMATIONS
+   ========================================= */
+@keyframes spin { 0% { transform: rotate(0deg); } 100% { transform: rotate(360deg); } }
+@keyframes pulse { 0% { opacity: 0.5; } 100% { opacity: 1; } }
+@keyframes float-bounce { 0%, 100% { transform: translateY(0); } 50% { transform: translateY(-8px); } }
+@keyframes popIn { from { transform: scale(0.95); opacity: 0; } to { transform: scale(1); opacity: 1; } }
+
+.typewriter {
+  overflow: hidden;
+  white-space: nowrap;
+  border-right: 3px solid transparent;
+  width: 11.5ch;
+  animation: typing 2s steps(17, end) forwards, blink-caret 0.5s step-end 20;
+}
+@keyframes typing { from { width: 0; } to { width: 11.5ch; } }
+@keyframes blink-caret { from, to { border-right-color: transparent; } 50% { border-right-color: #8ab4f8; } }
+
+/* =========================================
+   MOBILE & ACCESSIBILITY OVERRIDES
+   ========================================= */
 @media (max-width: 768px) {
-    .npc-container {
-        flex-direction: column; /* Stacks items vertically */
-        align-items: flex-end; 
-        gap: 5px; 
-        bottom: 15px;
-        right: 15px;
-    }
+  h1 { font-size: 2rem; }
+  h2 { font-size: 1.5rem; }
+  p { font-size: 1rem; }
 
-    .npc-image {
-        /* Shrinks the astronaut slightly so it doesn't block buttons */
-        width: 110px; 
-    }
+  nav { gap: 0px; flex-wrap: nowrap; }
+  nav a { font-size: 0.85rem; padding: 6px 10px; margin: 2px; }
 
-    .npc-speech-bubble {
-        max-width: 260px; /* Keeps bubble from spilling off the left side of the screen */
-        margin-right: 0; 
-        margin-bottom: 0; 
-    }
+  .project-success .status-dot::before { font-size: 0.9rem; }
+  .project-unsuccessful .status-dot::before { font-size: 0.9rem; }
+
+  /* Kills the custom cursor on phones */
+  .cursor-circle, .cursor-dot { display: none !important; }
+  * { cursor: auto !important; }
+
+  .npc-container {
+      flex-direction: column;
+      align-items: flex-end; 
+      gap: 5px; 
+      bottom: 15px;
+      right: 15px;
+  }
+  .npc-image { width: 110px; }
+  .npc-speech-bubble { max-width: 260px; margin-right: 0; margin-bottom: 0; }
+}
+
+@media (max-width: 750px) {
+  .constellation-controls { top: 20px; right: 20px; flex-direction: column; gap: 8px; }
+  
+  .form-bottom-row {
+    flex-direction: column;
+    align-items: stretch;
+  }
+  .contact-form-dark input { padding: 10px; width: 100%; box-sizing: border-box; }
+  .contact-form-dark button { width: 100%; padding: 10px; text-align: center; }
+}
+
+@media (max-width: 700px) {
+  .photography-grid { columns: 2; column-gap: 12px; }
+  .photo-frame { margin-bottom: 12px; padding: 5px; }
+}
+
+@media (max-width: 650px) {
+  .projects-grid { grid-template-columns: 1fr; gap: 14px; }
+  .project-card { padding: 20px; }
+}
+
+@media (max-width: 600px) {
+  .constellation-controls { align-items: flex-end; }
+  .terminal-btn {
+    padding: 6px 12px;
+    font-size: 0.75rem;
+    background: rgba(20, 20, 29, 0.4);
+    backdrop-filter: blur(8px);
+  }
+}
+
+@media (max-width: 420px) {
+  .photography-grid { columns: 2; }
+}
+
+/* Accessibility: Stop animations if the user has disabled motion in their OS */
+@media (prefers-reduced-motion: reduce) {
+  html { scroll-behavior: auto; }
+  .project-card, .photo-frame { transition: none; }
+  .project-card:hover, .photo-frame:hover { transform: none; }
+  #hero::before, .hero::before { transition: none; }
+}
+
+@media (max-width: 700px) {
+  #contact {
+    margin: 0 auto 60px auto; /* Centers the whole block horizontally */
+  }
 }
